@@ -8,6 +8,6 @@
 		<owner>
 			<email>kulyov.pavel@gmail.com</email>
 		</owner>
-		<source type="git">git://github.com/pankshok/riru-overlay.git"</source>
+		<source type="git">git://github.com/pankshok/riru-overlay.git</source>
 	</repo>
 </repositories>
