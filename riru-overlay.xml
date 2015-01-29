@@ -4,6 +4,6 @@
         status="unofficial"
         name="riru">
         <link>https://github.com/pankshok/riru</link>
-        <description>Unofficial portage overlay</description>
+        <description>Unofficial gentoo overlay</description>
     </overlay>
 </layman>
