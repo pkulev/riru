@@ -1,9 +1,13 @@
-<layman>
-    <overlay type="git" src="git://github.com/pankshok/riru-overlay.git"
-        contact="kulyov.pavel@gmail.com"
-        status="unofficial"
-        name="riru-overlay">
-        <link>https://github.com/pankshok/riru-overlay</link>
-        <description>Unofficial gentoo overlay</description>
-    </overlay>
-</layman>
+<?xml version="1.0" ?>
+
+<repositories version="1.0">
+	<repo priority="50" quality="experemental" status="unofficial">
+		<name>riru-overlay</name>
+		<description>Custom stuff for laptops.</description>
+		<homepage>https://github.com/pankshok/riru-overlay</homepage>
+		<owner>
+			<email>kulyov.pavel@gmail.com</email>
+		</owner>
+		<source type="git">git://github.com/pankshok/riru-overlay.git"</source>
+	</repo>
+</repositories>
