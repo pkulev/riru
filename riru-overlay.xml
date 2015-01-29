@@ -1,9 +1,0 @@
-<layman>
-    <overlay type="git" src="git://github.com/pankshok/riru.git"
-        contact="kulyov.pavel@gmail.com"
-        status="unofficial"
-        name="riru">
-        <link>https://github.com/pankshok/riru</link>
-        <description>Unofficial portage overlay</description>
-    </overlay>
-</layman>
