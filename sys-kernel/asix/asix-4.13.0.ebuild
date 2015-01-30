@@ -13,5 +13,5 @@ SLOT="0"
 KEYWORDS="~amd64"
 IUSE=""
 
-DEPEND="gentoo-sources"
-RDEPEND="${DEPEND}"
+RDEPEND="sys-kernel/gentoo-sources"
+DEPEND="${RDEPEND}"
