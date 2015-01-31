@@ -1,0 +1,13 @@
+--- a/Makefile
++++ b/Makefile
+@@ -22,7 +22,9 @@
+ 	$(LD) $(LD_RFLAG) -r -o $@ $(OBJS)
+ 
+ install:
+-	su -c "cp -v $(TARGET).ko $(DEST) && /sbin/depmod -a"
++	mkdir -p $(DEST)
++	cp -v $(TARGET).ko $(DEST)
++	/sbin/depmod -a
+ 
+ clean:
+ 	$(MAKE) -C $(KDIR) SUBDIRS=$(PWD) clean
