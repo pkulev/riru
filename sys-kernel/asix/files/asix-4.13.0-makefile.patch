@@ -1,13 +1,12 @@
---- a/Makefile
-+++ b/Makefile
-@@ -22,7 +22,9 @@
+--- /home/most/asixMod/AX88772C_772B_772A_760_772_178_LINUX_DRIVER_v4.13.0_Source/Makefile	2013-01-16 10:05:12.000000000 +0400
++++ new	2015-02-02 13:04:27.501070255 +0300
+@@ -22,7 +22,8 @@
  	$(LD) $(LD_RFLAG) -r -o $@ $(OBJS)
  
  install:
 -	su -c "cp -v $(TARGET).ko $(DEST) && /sbin/depmod -a"
 +	mkdir -p $(DEST)
 +	cp -v $(TARGET).ko $(DEST)
-+	/sbin/depmod -a
  
  clean:
  	$(MAKE) -C $(KDIR) SUBDIRS=$(PWD) clean

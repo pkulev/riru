@@ -3,33 +3,12 @@
 # $Header: $
 
 EAPI="5"
-#What and why
-ETYPE="sources"
-MERGE_TYPE="source"
+
+inherit eutils linux-mod
 
 DESCRIPTION="A kernel module for the ASIX USB 2.0 low power AX88772B/AX88772A/AX88760/AX88772/AX88178 ethernet controllers"
 HOMEPAGE="http://www.asix.com.tw"
 SRC_URI="http://www.github.com/pankshok/${PN}/archive/master.zip -> ${P}.zip"
-
-#WORKDIR = "${PORTAGE_TMPDIR}/portage/${CATEGORY}/${PF}/work"
-
-#WONTFIX:
-S="${WORKDIR}/${P}"
-
-# P		Package name and version (excluding revision, if any), for example vim-6.3.
-# PN	Package name, for example vim.
-# PV	Package version (excluding revision, if any), for example 6.3. It should reflect the upstream versioning scheme.
-# PR	Package revision, or r0 if no revision exists.
-# PVR	Package version and revision (if any), for example 6.3, 6.3-r1.
-# PF	Full package name, ${PN}-${PVR}, for example vim-6.3-r1.
-# A	All the source files for the package (excluding those which are not available because of USE flags).
-# CATEGORY	Package's category, for example app-editors.
-# FILESDIR	Path to the ebuild's files/ directory, commonly used for small patches and files. Value: "${PORTDIR}/${CATEGORY}/${PN}/files".
-# WORKDIR	Path to the ebuild's root build directory. Value: "${PORTAGE_BUILDDIR}/work".
-# T	Path to a temporary directory which may be used by the ebuild. Value: "${PORTAGE_BUILDDIR}/temp".
-# D	Path to the temporary install directory. Value: "${PORTAGE_BUILDDIR}/image".
-# ROOT	Path to the root directory. When not using ${D}, always prepend ${ROOT} to the path.
-# DISTDIR	Contains the path to the directory where all the files fetched for the package are stored.
 
 LICENSE="GPL"
 SLOT="0"
@@ -41,36 +20,43 @@ HDEPEND=">=sys-kernel/gentoo-sources-3.10.14"
 RDEPEND="${HDEPEND}"
 
 src_unpack() {
-	if [[ ${PV} == 99999999* ]]; then
-		eerror "I don't know that to do! HEELP!!!" && die
-	else
-		default
-		# rename directory from git snapshot tarball
-		mv ${PN}-*/ ${P} || die
-	fi
+	default
+	# rename directory from git snapshot tarball
+	mv ${PN}-*/ ${P} || die
+}
+
+src_prepare() {
+	#patch to get rid of wierd Xauthority error
+	epatch ${FILESDIR}/${P}-makefile.patch
+	#patch to make new gcc happy
+	epatch ${FILESDIR}/${P}-timedatemacro.patch
+}
+
+src_configure() {
+	# to fix No rule to make target '/usr/src/linux-3.14.29-gentoo/arch/amd64/Makefile' error
+	unset ARCH
+}
+
+src_compile() {
+	# to supress QA notice
+	MAKEOPTS=-j1
+	emake
+}
+
+src_install() {
+	MODULE_NAMES="asix(kernel/drivers/net/usb)"
+	linux-mod_src_install
+}
+
+pkg_setup() {
+	linux-mod_pkg_setup
 }
 
 pkg_postinst() {
+	linux-mod_pkg_postinst
 	einfo "For more info about asix kernel driver see:"
 	einfo "${HOMEPAGE}"
 	einfo "If there are problems with installation, please contact me:"
 	einfo "Pavel Kulyov <email: kulyov.pavel@gmail.com>"
-	elog  "This is log message ZAZAZAZA"
-	ewarn "This is warniing!"
-	eerror " this is unbelievable shit!"
 }
-
-pkg_preinst() {
-	einfo "${KERNEL_URI}ololo"
-}
-
-src_install() {
-	emake DEST="${D}" TARGET="${WORKDIR}/${PN}" install
-}
-
-src_compile() {
-	einfo "Started compile phase"
-
-}
-
 
