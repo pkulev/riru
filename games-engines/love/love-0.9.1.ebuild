@@ -38,7 +38,6 @@ src_prepare() {
 		mkdir platform/unix/m4 || die
 		eautoreconf
 	fi
-	epatch "${FILESDIR}"/${P}-freetype2.patch
 }
 
 src_install() {
