@@ -27,7 +27,7 @@ DEPEND="
 		x11-libs/libnotify
 		x11-libs/libXtst
 		dev-libs/nss
-		1media-libs/alsa-lib"
+		media-libs/alsa-lib"
 
 
 RDEPEND="${DEPEND}"
