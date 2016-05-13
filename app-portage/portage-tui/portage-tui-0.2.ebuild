@@ -5,7 +5,7 @@ SLOT="0"
 SRC_URI="https://github.com/TyanNN/portage-tui/archive/0.2.tar.gz"
 LICENSE="GPL v3"
 KEYWORDS="~amd64 ~arm ~x86"
-S="${WORKDIR}/portage-tui-master"
+S="${WORKDIR}"
 RDEPEND="dev-python/pexpect dev-lang/python"
 
 src_install(){
