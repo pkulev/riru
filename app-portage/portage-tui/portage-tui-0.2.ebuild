@@ -1,14 +1,19 @@
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-EAPI=5
-DESCRIPTION="Portage terminal user interface"
+# $Id$
+EAPI=6
+DESCRIPTION="Portage terminal user interface."
+HOMEPAGE="https://github.com/TyanNN/portage-tui"
+SRC_URI="https://github.com/TyanNN/portage-tui/archive/${PV}.tar.gz"
+LICENSE="GPL-3"
 SLOT="0"
-SRC_URI="https://github.com/TyanNN/portage-tui/archive/0.2.tar.gz"
-LICENSE="GPL v3"
 KEYWORDS="~amd64 ~arm ~x86"
-S="${WORKDIR}"
-RDEPEND="dev-python/pexpect dev-lang/python"
+RESTRICT="mirror"
+RDEPEND="dev-python/pexpect
+	dev-lang/python"
+S=${WORKDIR}
 
 src_install(){
-    dobin portage-tui
-    dobin cats_parser.py
+	dobin portage-tui
+	dobin cats_parser.py
 }
