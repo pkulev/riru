@@ -14,7 +14,7 @@ KEYWORDS="~amd64 ~arm ~x86"
 RESTRICT="mirror"
 RDEPEND="dev-python/pexpect
 	dev-lang/python"
-S="${WORKDIR}/${PN}-master"
+S="${WORKDIR}/${P}"
 
 src_install(){
 	dobin portage-tui
