@@ -5,7 +5,7 @@ EAPI=6
 
 DESCRIPTION="Portage terminal user interface."
 HOMEPAGE="https://github.com/TyanNN/portage-tui"
-SRC_URI="https://github.com/TyanNN/portage-tui/archive/${PV}.tar.gz"
+SRC_URI="https://github.com/TyanNN/portage-tui/archive/${PV}.tar.gz -> portage-tui-${PV}.tar.gz"
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="~amd64 ~arm ~x86"
