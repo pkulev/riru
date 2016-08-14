@@ -10,7 +10,6 @@ HOMEPAGE="https://github.com/TyanNN/portage-tui"
 EGIT_REPO_URI="https://github.com/TyanNN/${PN}.git"
 LICENSE="GPL-3"
 SLOT="0"
-KEYWORDS="~amd64 ~arm ~x86"
 RESTRICT="mirror"
 RDEPEND="dev-python/pexpect
 	dev-lang/python"
