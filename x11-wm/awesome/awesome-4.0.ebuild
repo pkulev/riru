@@ -12,7 +12,7 @@ SRC_URI="https://github.com/awesomeWM/awesome/releases/download/v4.0/${P}.tar.xz
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64 ~arm ~ppc ~ppc64 ~x86 ~x86-fbsd"
-IUSE="dbus doc elibc_FreeBSD"
+IUSE="dbus elibc_FreeBSD"
 
 COMMON_DEPEND="
 	>=dev-lang/lua-5.1:0
@@ -41,11 +41,7 @@ DEPEND="${COMMON_DEPEND}
 	virtual/pkgconfig
 	media-gfx/imagemagick[png]
 	>=x11-proto/xcb-proto-1.5
-	>=x11-proto/xproto-7.0.15
-	doc? (
-		app-doc/doxygen
-		media-gfx/graphviz
-	)"
+	>=x11-proto/xproto-7.0.15"
 
 RDEPEND="${COMMON_DEPEND}"
 
@@ -60,7 +56,6 @@ src_configure() {
 		-DPREFIX="${EPREFIX}"/usr
 		-DSYSCONFDIR="${EPREFIX}"/etc
 		$(cmake-utils_use_with dbus DBUS)
-		$(cmake-utils_use doc GENERATE_DOC)
 		)
 
 	cmake-utils_src_configure
@@ -69,23 +64,11 @@ src_configure() {
 src_compile() {
 	local myargs="all"
 
-	if use doc ; then
-		myargs="${myargs} doc"
-	fi
 	cmake-utils_src_make ${myargs}
 }
 
 src_install() {
 	cmake-utils_src_install
-
-	if use doc ; then
-		(
-			cd "${CMAKE_BUILD_DIR}"/doc
-			mv html doxygen
-			dohtml -r doxygen || die
-		)
-	fi
-	rm -rf "${ED}"/usr/share/doc/${PN} || die "Cleanup of dupe docs failed"
 
 	exeinto /etc/X11/Sessions
 }
