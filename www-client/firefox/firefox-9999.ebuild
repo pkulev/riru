@@ -14,7 +14,7 @@ S="${WORKDIR}/firefox"
 EGIT_REPO_URI="https://github.com/mozilla/gecko-dev"
 EGIT_CHECKOUT_DIR="${WORKDIR}/firefox"
 
-inherit check-reqs flag-o-matic toolchain-funcs eutils gnome2-utils mozconfig-9999 pax-utils fdo-mime autotools virtualx git-r3
+inherit check-reqs flag-o-matic toolchain-funcs eutils gnome2-utils mozconfig-custom pax-utils fdo-mime autotools virtualx git-r3
 
 DESCRIPTION="Firefox Web Browser"
 HOMEPAGE="http://www.mozilla.com/firefox"
@@ -29,8 +29,8 @@ RESTRICT="!bindist? ( bindist ) mirror"
 ASM_DEPEND=">=dev-lang/yasm-1.1"
 
 RDEPEND="
-	>=dev-libs/nss-3.28.3
 	>=dev-libs/nspr-4.13.1
+	>=dev-libs/nss-3.28.3
 	selinux? ( sec-policy/selinux-mozilla )"
 
 DEPEND="${RDEPEND}
@@ -94,12 +94,12 @@ src_prepare() {
 	#rm "${S}"/1003_drop_build_id.patch
 	#rm "${S}"/1004_dont_hardcode_libc_soname.patch
 	#rm "${S}"/2002_system_graphite2.patch
-    #rm "${WORKDIR}"/firefox/2003_include_sysmacros_h.patch
+#	rm "${WORKDIR}"/firefox/2003_include_sysmacros_h.patch
 
 	#eapply "${S}"
 	#eapply "${FILESDIR}"/1003_drop_build_id.patch
 	#eapply "${FILESDIR}"/2002_system_graphite2.patch
-    #eapply "${FILESDIR}"/2003_include_sysmacros_h.patch
+#	eapply "${FILESDIR}"/2003_include_sysmacros_h.patch
 
 	# Enable gnomebreakpad
 	if use debug ; then
@@ -155,8 +155,8 @@ src_prepare() {
 	eautoconf old-configure.in
 
 	# Need to update jemalloc's configure
-	cd "${S}"/memory/jemalloc/src || die
-	WANT_AUTOCONF= eautoconf
+	#cd "${S}"/memory/mozjemalloc || die
+	#WANT_AUTOCONF= eautoconf
 }
 
 src_configure() {

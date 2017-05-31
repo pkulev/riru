@@ -282,7 +282,8 @@ mozconfig_config() {
 	# at this time the minimum glibc in the tree is 2.9 so we should be safe.
 	if use elibc_glibc && use jemalloc; then
 		# We must force-enable jemalloc 4 via .mozconfig
-		echo "export MOZ_JEMALLOC4=1" >> "${S}"/.mozconfig || die
+		# Deprecated
+		# echo "export MOZ_JEMALLOC4=1" >> "${S}"/.mozconfig || die
 		mozconfig_annotate '' --enable-replace-malloc
 	fi
 
