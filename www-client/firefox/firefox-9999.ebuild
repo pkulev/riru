@@ -210,7 +210,8 @@ src_configure() {
 
 	# workaround for funky/broken upstream configure...
 	SHELL="${SHELL:-${EPREFIX%/}/bin/bash}" \
-	emake -f client.mk configure
+	# emake -f client.mk configure
+	./mach configure
 }
 
 src_compile() {
@@ -239,7 +240,8 @@ src_compile() {
 		virtx emake -f client.mk profiledbuild || die "virtx emake failed"
 	else
 		MOZ_MAKE_FLAGS="${MAKEOPTS}" SHELL="${SHELL:-${EPREFIX%/}/bin/bash}" \
-		emake -f client.mk realbuild
+		./mach build
+		# emake -f client.mk realbuild
 	fi
 
 }
@@ -280,7 +282,7 @@ src_install() {
 	emake DESTDIR="${D}" install
 
 	# Install language packs
-	mozlinguas_src_install
+	# mozlinguas_src_install
 
 	local size sizes icon_path icon name
 	if use bindist; then
@@ -315,9 +317,9 @@ PROFILE_EOF
 	done
 	# The 128x128 icon has a different name
 	insinto "/usr/share/icons/hicolor/128x128/apps"
-	newins "${icon_path}/mozicon128.png" "${icon}.png"
+	newins "${icon_path}/default128.png" "${icon}.png"
 	# Install a 48x48 icon into /usr/share/pixmaps for legacy DEs
-	newicon "${icon_path}/content/icon48.png" "${icon}.png"
+	# newicon "${icon_path}/content/icon48.png" "${icon}.png"
 	newmenu "${FILESDIR}/icon/${PN}.desktop" "${PN}.desktop"
 	sed -i -e "s:@NAME@:${name}:" -e "s:@ICON@:${icon}:" \
 		"${ED}/usr/share/applications/${PN}.desktop" || die
