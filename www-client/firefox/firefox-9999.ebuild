@@ -35,7 +35,7 @@ RDEPEND="
 
 DEPEND="${RDEPEND}
 	pgo? ( >=sys-devel/gcc-4.5 )
-	dev-lang/rust
+	|| ( dev-lang/rust dev-lang/rust-bin )
 	sys-devel/clang
 	amd64? ( ${ASM_DEPEND} virtual/opengl )
 	x86? ( ${ASM_DEPEND} virtual/opengl )"
@@ -88,8 +88,6 @@ pkg_pretend() {
 }
 
 src_prepare() {
-	eapply "${FILESDIR}"/gcc6-fix-lto-partition-flag-v2.patch
-
 	# Apply our patches
 	#rm "${S}"/1001_disable_sdk_install.patch
 	#rm "${S}"/1003_drop_build_id.patch
