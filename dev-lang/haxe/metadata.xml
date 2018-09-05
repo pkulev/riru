@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+  <maintainer type="person">
+    <email>vaartis@cock.li</email>
+  </maintainer>
+  <longdescription>
+    Haxe is an open source toolkit that allows you to easily build cross-platform tools and
+    applications that target many mainstream platforms. 
+  </longdescription>
+</pkgmetadata>
