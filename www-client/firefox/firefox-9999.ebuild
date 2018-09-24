@@ -23,7 +23,7 @@ KEYWORDS=""
 
 SLOT="0"
 LICENSE="MPL-2.0 GPL-2 LGPL-2.1"
-IUSE="bindist +gmp-autoupdate hardened hwaccel pgo selinux test"
+IUSE="bindist +gmp-autoupdate hardened hwaccel pgo selinux test wayland"
 RESTRICT="!bindist? ( bindist ) mirror"
 
 ASM_DEPEND=">=dev-lang/yasm-1.1"
@@ -31,9 +31,11 @@ ASM_DEPEND=">=dev-lang/yasm-1.1"
 RDEPEND="
 	>=dev-libs/nspr-4.13.1
 	>=dev-libs/nss-3.28.3
+	>=dev-util/cbindgen-0.6.3
 	selinux? ( sec-policy/selinux-mozilla )"
 
 DEPEND="${RDEPEND}
+	>=net-libs/nodejs-8.11.4
 	pgo? ( >=sys-devel/gcc-4.5 )
 	|| ( dev-lang/rust dev-lang/rust-bin )
 	sys-devel/clang
@@ -189,7 +191,11 @@ src_configure() {
 
 	mozconfig_annotate '' --enable-extensions="${MEXTENSIONS}"
 
-	mozconfig_annotate '' --enable-default-toolkit=cairo-gtk3
+	if use wayland; then
+		mozconfig_annotate '' --enable-default-toolkit=cairo-gtk3-wayland
+	else
+		mozconfig_annotate '' --enable-default-toolkit=cairo-gtk3
+	fi
 
 	# Allow for a proper pgo build
 	if use pgo; then
