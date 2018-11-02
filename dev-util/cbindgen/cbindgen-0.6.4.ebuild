@@ -15,6 +15,7 @@ fuchsia-zircon-0.3.3
 fuchsia-zircon-sys-0.3.3
 log-0.4.1
 libc-0.2.41
+proc-macro2-0.3.8
 proc-macro2-0.4.4
 rand-0.5.5
 rand_core-0.2.1
@@ -22,11 +23,11 @@ redox_syscall-0.1.40
 redox_termios-0.1.1
 remove_dir_all-0.5.1
 serde-1.0.64
-serde_derive-1.0.21
+serde_derive-1.0.58
 serde_derive_internals-0.17.0
 serde_json-1.0.19
 strsim-0.7.0
-syn-0.11.11
+syn-0.13.11
 syn-0.14.1
 synom-0.11.3
 vec_map-0.8.1
@@ -35,7 +36,7 @@ termion-1.5.1
 textwrap-0.9.0
 toml-0.4.6
 itoa-0.4.1
-quote-0.3.15
+quote-0.5.2
 quote-0.6.3
 unicode-width-0.1.5
 unicode-xid-0.0.4
