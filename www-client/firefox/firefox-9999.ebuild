@@ -215,7 +215,7 @@ src_configure() {
 	# workaround for funky/broken upstream configure...
 	SHELL="${SHELL:-${EPREFIX%/}/bin/bash}" \
 	# emake -f client.mk configure
-	./mach configure
+	./mach configure || die
 }
 
 src_compile() {
@@ -244,7 +244,7 @@ src_compile() {
 		virtx emake -f client.mk profiledbuild || die "virtx emake failed"
 	else
 		MOZ_MAKE_FLAGS="${MAKEOPTS}" SHELL="${SHELL:-${EPREFIX%/}/bin/bash}" \
-		./mach build
+		./mach build || die
 		# emake -f client.mk realbuild
 	fi
 
