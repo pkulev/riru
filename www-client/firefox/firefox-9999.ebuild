@@ -187,7 +187,10 @@ src_configure() {
 
 	# Setup api key for location services
 	echo -n "${_google_api_key}" > "${S}"/google-api-key
-	mozconfig_annotate '' --with-google-api-keyfile="${S}/google-api-key"
+	mozconfig_annotate '' --with-google-location-service-api-keyfile="${S}/google-api-key"
+	mozconfig_annotate '' --with-google-safebrowsing-api-keyfile="${S}/google-api-key"
+
+	mozconfig_annotate '' --with-libclang-path=`llvm-config --libdir`
 
 	mozconfig_annotate '' --enable-extensions="${MEXTENSIONS}"
 
@@ -215,7 +218,7 @@ src_configure() {
 	# workaround for funky/broken upstream configure...
 	SHELL="${SHELL:-${EPREFIX%/}/bin/bash}" \
 	# emake -f client.mk configure
-	./mach configure
+	./mach configure || die
 }
 
 src_compile() {
@@ -244,7 +247,7 @@ src_compile() {
 		virtx emake -f client.mk profiledbuild || die "virtx emake failed"
 	else
 		MOZ_MAKE_FLAGS="${MAKEOPTS}" SHELL="${SHELL:-${EPREFIX%/}/bin/bash}" \
-		./mach build
+		./mach build || die
 		# emake -f client.mk realbuild
 	fi
 
