@@ -1,9 +1,8 @@
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 2019 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
-# $Id$
 
-EAPI=5
-inherit git-2 eutils qmake-utils
+EAPI=6
+inherit git-r3 eutils qmake-utils
 
 DESCRIPTION="Cross-platform libmpv-based multimedia player with uncluttered design"
 HOMEPAGE="http://bakamplayer.u8sand.net/"
