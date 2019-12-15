@@ -1,0 +1,39 @@
+#+TITLE: riru
+
+Home overlay for development, patches and live ebuilds.
+
+* Installation
+** Via layman
+  #+begin_src bash
+    $ sudo layman -a riru
+    $ sudo layman -S
+  #+end_src
+
+* How to contribute
+** Useful links
+   - [[https://devmanual.gentoo.org/][Gentoo developer documentation]]
+   - [[https://dev.gentoo.org/~mgorny/articles/the-ultimate-guide-to-eapi-7.html][The ultimate guide to EAPI 7]]
+   - [[https://devmanual.gentoo.org/eclass-reference/ebuild/index.html][ebuild file format manual]] or =man 5 ebuild=
+
+** Bump version for existing ebuild
+   Let's bump version of =dev-scheme/guile-ncurses= from =2.2= to =3.0= version.
+   #+begin_src bash
+     $ cd dev-scheme/guile-ncurses
+     $ cp guile-ncurses-2.2.ebuild guile-ncurses-3.0.ebuild
+     $ repoman manifest
+     $ git add guile-ncurses-3.0.ebuild Manifest
+     $ git commit -s -m "dev-scheme/guile-ncurses: bump version to 3.0"
+   #+end_src
+
+** Adding new ebuilds
+   It's encouraged to use newest EAPI version possible, but you can use any EAPI
+   that greater or equals to that written at =profiles/eapi= of this overlay.
+
+** Creating requests for writing ebuilds
+   You also can create issue with detailed information about package you want see
+   in Gentoo. It's totally not guaranteed that it will be done, but who knows.
+   Issues are free to create so why not?
+
+** Refactor existing ebuilds
+   You can change existing ebuilds to add new functionality, solve QA issues or
+   bump EAPI version.
