@@ -22,6 +22,7 @@ RESTRICT="!test? ( test )"
 
 BDEPEND="
 	dev-python/setuptools[${PYTHON_USEDEP}]
+	dev-python/setuptools_scm[${PYTHON_USEDEP}]
 	test? (	dev-python/pytest[${PYTHON_USEDEP}]	)"
 
 python_prepare_all() {
