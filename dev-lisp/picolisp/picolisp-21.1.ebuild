@@ -3,6 +3,8 @@
 
 EAPI=7
 
+inherit llvm
+
 DESCRIPTION="PicoLisp - programming language and database"
 HOMEPAGE="http://picolisp.com/wiki/"
 SRC_URI="http://software-lab.de/picoLisp-${PV}.tgz"
@@ -11,16 +13,16 @@ LICENSE="MIT X11"
 SLOT="0"
 KEYWORDS="~x86 ~amd64"
 
-S=${WORKDIR}/picoLisp
+BDEPEND=">=sys-devel/clang-3.5
+"
+
+DEPEND="${LLVM_DEPEND}
+"
+
+S=${WORKDIR}/pil21
 
 src_compile() {
-	if use x86; then
-		SRC_PATH=${S}/src
-	else if use amd64; then
-		SRC_PATH=${S}/src64
-		 fi
-	fi
-	cd ${SRC_PATH}
+	cd "${S}/src"
 	emake || die "emake failed"
 }
 
