@@ -1,8 +1,9 @@
- # Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $
 
-EAPI=6
+EAPI=7
+
+inherit llvm
 
 DESCRIPTION="PicoLisp - programming language and database"
 HOMEPAGE="http://picolisp.com/wiki/"
@@ -12,16 +13,16 @@ LICENSE="MIT X11"
 SLOT="0"
 KEYWORDS="~x86 ~amd64"
 
-S=${WORKDIR}/picoLisp
+BDEPEND=">=sys-devel/clang-3.5
+"
+
+DEPEND="${LLVM_DEPEND}
+"
+
+S=${WORKDIR}/pil21
 
 src_compile() {
-	if use x86; then
-		SRC_PATH=${S}/src
-	else if use amd64; then
-		SRC_PATH=${S}/src64
-	     fi
-	fi
-	cd ${SRC_PATH}
+	cd "${S}/src"
 	emake || die "emake failed"
 }
 
