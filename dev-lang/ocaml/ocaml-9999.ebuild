@@ -106,10 +106,7 @@ src_test() {
 }
 
 src_install() {
-	emake BINDIR="${ED}"/usr/bin \
-		LIBDIR="${ED}"/usr/$(get_libdir)/ocaml \
-		MANDIR="${ED}"/usr/share/man \
-		install
+	emake DESTDIR="${ED}" install
 
 	# Symlink the headers to the right place
 	dodir /usr/include
