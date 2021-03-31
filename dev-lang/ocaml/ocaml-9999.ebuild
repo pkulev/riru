@@ -1,4 +1,4 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="5"
@@ -22,7 +22,7 @@ RDEPEND="
 	sys-libs/binutils-libs:=
 	ncurses? ( sys-libs/ncurses:0= )
 	spacetime? ( sys-libs/libunwind:= )
-	X? ( x11-libs/libX11 x11-proto/xproto )"
+	X? ( x11-libs/libX11 x11-base/xorg-proto )"
 DEPEND="${RDEPEND}
 	virtual/pkgconfig"
 
