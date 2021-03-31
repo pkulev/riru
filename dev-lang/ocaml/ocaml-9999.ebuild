@@ -67,7 +67,11 @@ src_configure() {
 	use spacetime && myconf="${myconf} --enable-spacetime"
 
 	# ocaml uses a home-brewn configure script, preventing it to use econf.
-	RAW_LDFLAGS="$(raw-ldflags)" ./configure \
+	RAW_LDFLAGS="$(raw-ldflags)" \
+	CC=$(tc-getCC) \
+	AS=$(tc-getAS) \
+	PARTIALLD="$(tc-getLD) -r" \
+	./configure \
 		--prefix "${EPREFIX}"/usr \
 		--bindir "${EPREFIX}"/usr/bin \
 		--with-target-bindir "${EPREFIX}"/usr/bin \
