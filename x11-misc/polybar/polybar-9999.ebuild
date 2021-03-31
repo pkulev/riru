@@ -16,7 +16,7 @@ KEYWORDS="~amd64 ~x86"
 LICENSE="MIT"
 SLOT="0"
 
-IUSE="alsa curl i3wm ipc mpd network pulseaudio"
+IUSE="alsa curl i3wm ipc mpd network pulseaudio doc"
 REQUIRED_USE="${PYTHON_REQUIRED_USE}"
 
 DEPEND="
@@ -36,6 +36,7 @@ DEPEND="
 	mpd? ( media-libs/libmpdclient )
 	network? ( net-wireless/wireless-tools )
 	pulseaudio? ( media-sound/pulseaudio )
+	doc? ( dev-python/sphinx )
 "
 
 RDEPEND="${DEPEND}"
@@ -49,6 +50,7 @@ src_configure() {
 		-DENABLE_MPD="$(usex mpd)"
 		-DENABLE_NETWORK="$(usex network)"
 		-DENABLE_PULSEAUDIO="$(usex pulseaudio)"
+		-DBUILD_DOC="$(usex doc)"
 	)
 
 	cmake-utils_src_configure
