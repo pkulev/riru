@@ -73,11 +73,9 @@ src_configure() {
 		--with-target-bindir "${EPREFIX}"/usr/bin \
 		--libdir "${EPREFIX}"/usr/$(get_libdir)/ocaml \
 		--mandir "${EPREFIX}"/usr/share/man \
-		-target "${CHOST}" \
-		-host "${CBUILD}" \
-		-cc "$(tc-getCC)" \
-		-as "$(tc-getAS)" \
-		-aspp "$(tc-getCC) -c" \
+		--host "${CHOST}" \
+		--build "${CBUILD}" \
+		--target "${CBUILD}" \
 		-partialld "$(tc-getLD) -r" \
 		--with-pthread ${myconf} || die "configure failed!"
 
