@@ -12,7 +12,7 @@ EGIT_REPO_URI="https://github.com/polybar/polybar"
 DESCRIPTION="A fast and easy-to-use tool for creating status bars"
 HOMEPAGE="https://github.com/polybar/polybar"
 
-KEYWORDS="~amd64 ~x86"
+KEYWORDS=""
 LICENSE="MIT"
 SLOT="0"
 
