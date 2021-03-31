@@ -70,7 +70,7 @@ src_configure() {
 	RAW_LDFLAGS="$(raw-ldflags)" ./configure \
 		--prefix "${EPREFIX}"/usr \
 		--bindir "${EPREFIX}"/usr/bin \
-		--target-bindir "${EPREFIX}"/usr/bin \
+		--with-target-bindir "${EPREFIX}"/usr/bin \
 		--libdir "${EPREFIX}"/usr/$(get_libdir)/ocaml \
 		--mandir "${EPREFIX}"/usr/share/man \
 		-target "${CHOST}" \
