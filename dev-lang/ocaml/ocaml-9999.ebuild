@@ -80,7 +80,7 @@ src_configure() {
 		--host "${CHOST}" \
 		--build "${CBUILD}" \
 		--target "${CBUILD}" \
-		--with-pthread ${myconf} || die "configure failed!"
+		${myconf} || die "configure failed!"
 
 	# http://caml.inria.fr/mantis/view.php?id=4698
 	export CCLINKFLAGS="${LDFLAGS}"
