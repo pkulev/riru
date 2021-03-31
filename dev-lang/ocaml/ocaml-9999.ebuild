@@ -76,7 +76,6 @@ src_configure() {
 		--host "${CHOST}" \
 		--build "${CBUILD}" \
 		--target "${CBUILD}" \
-		-partialld "$(tc-getLD) -r" \
 		--with-pthread ${myconf} || die "configure failed!"
 
 	# http://caml.inria.fr/mantis/view.php?id=4698
