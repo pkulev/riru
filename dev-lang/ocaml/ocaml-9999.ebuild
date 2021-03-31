@@ -63,8 +63,8 @@ src_configure() {
 
 	use ncurses || myconf="${myconf} -no-curses"
 	use X || myconf="${myconf} -no-graph"
-	use flambda && myconf="${myconf} -flambda"
-	use spacetime && myconf="${myconf} -spacetime"
+	use flambda && myconf="${myconf} --enable-flambda"
+	use spacetime && myconf="${myconf} --enable-spacetime"
 
 	# ocaml uses a home-brewn configure script, preventing it to use econf.
 	RAW_LDFLAGS="$(raw-ldflags)" ./configure \
