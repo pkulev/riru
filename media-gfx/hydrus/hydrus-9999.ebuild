@@ -1,48 +1,51 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 EAPI=7
 
-PYTHON_COMPAT=( python{3_6,3_7,3_8,3_9} )
+PYTHON_COMPAT=( python3_{3..9} )
 
 inherit git-r3 eutils python-single-r1 desktop
 
 DESCRIPTION="*booru style image collector and viewer"
 HOMEPAGE="http://hydrusnetwork.github.io/hydrus/ https://github.com/hydrusnetwork/hydrus"
 EGIT_REPO_URI="https://github.com/hydrusnetwork/hydrus.git"
-IUSE="+ffmpeg miniupnpc +lz4 socks matplotlib"
+IUSE="+mpv +ffmpeg miniupnpc +lz4 socks matplotlib +cloudscraper"
 
 LICENSE="WTFPL"
 SLOT="0"
 KEYWORDS=""
 
 RDEPEND="$(python_gen_cond_dep '
-        media-libs/opencv[python,${PYTHON_MULTI_USEDEP}]
-
-        dev-python/QtPy[${PYTHON_MULTI_USEDEP}]
         dev-python/beautifulsoup:4[${PYTHON_MULTI_USEDEP}]
-        dev-python/twisted[${PYTHON_MULTI_USEDEP}]
-        dev-python/requests[${PYTHON_MULTI_USEDEP}]
-        dev-python/numpy[${PYTHON_MULTI_USEDEP}]
-        dev-python/lxml[${PYTHON_MULTI_USEDEP}]
-        dev-python/pillow[${PYTHON_MULTI_USEDEP}]
-        dev-python/pyyaml[${PYTHON_MULTI_USEDEP}]
-        dev-python/psutil[${PYTHON_MULTI_USEDEP}]
-        dev-python/send2trash[${PYTHON_MULTI_USEDEP}]
         dev-python/chardet[${PYTHON_MULTI_USEDEP}]
+        cloudscraper? ( dev-python/cloudscraper[${PYTHON_MULTI_USEDEP}] )
         dev-python/html5lib[${PYTHON_MULTI_USEDEP}]
-        dev-python/nose[${PYTHON_MULTI_USEDEP}]
-        dev-python/six[${PYTHON_MULTI_USEDEP}]
-
-        sys-apps/coreutils
-        x11-libs/gtkglext
-
-        ffmpeg? ( media-video/ffmpeg )
-        miniupnpc? ( net-libs/miniupnpc )
+        dev-python/lxml[${PYTHON_MULTI_USEDEP}]
         lz4? ( dev-python/lz4[${PYTHON_MULTI_USEDEP}] )
+        dev-python/nose[${PYTHON_MULTI_USEDEP}]
+        dev-python/numpy[${PYTHON_MULTI_USEDEP}]
+        media-libs/opencv[python,${PYTHON_MULTI_USEDEP}]
+        dev-python/pillow[${PYTHON_MULTI_USEDEP}]
+        dev-python/psutil[${PYTHON_MULTI_USEDEP}]
         socks? (
                 || ( dev-python/requests[socks5,${PYTHON_MULTI_USEDEP}]
                     dev-python/PySocks[${PYTHON_MULTI_USEDEP}] )
         )
+        mpv? (
+             media-video/mpv[libmpv,${PYTHON_MULTI_USEDEP}]
+             dev-python/python-mpv[${PYTHON_MULTI_USEDEP}]
+        )
+        dev-python/pyyaml[${PYTHON_MULTI_USEDEP}]
+        dev-python/QtPy[${PYTHON_MULTI_USEDEP}]
+        dev-python/requests[${PYTHON_MULTI_USEDEP}]
+        dev-python/send2trash[${PYTHON_MULTI_USEDEP}]
+        dev-python/six[${PYTHON_MULTI_USEDEP}]
+        dev-python/twisted[${PYTHON_MULTI_USEDEP}]
+
+        sys-apps/coreutils
+
+        ffmpeg? ( media-video/ffmpeg )
+        miniupnpc? ( net-libs/miniupnpc )
         matplotlib? ( dev-python/matplotlib[${PYTHON_MULTI_USEDEP}] )
     ')
     ${PYTHON_DEPS}"
