@@ -10,7 +10,7 @@ inherit git-r3 eutils python-single-r1 desktop
 DESCRIPTION="*booru style image collector and viewer"
 HOMEPAGE="http://hydrusnetwork.github.io/hydrus/ https://github.com/hydrusnetwork/hydrus"
 EGIT_REPO_URI="https://github.com/hydrusnetwork/hydrus.git"
-IUSE="+mpv +ffmpeg miniupnpc +lz4 socks matplotlib +cloudscraper"
+IUSE="+mpv +ffmpeg miniupnpc +lz4 socks matplotlib +cloudscraper test"
 
 LICENSE="WTFPL"
 SLOT="0"
@@ -51,45 +51,55 @@ RDEPEND="$(python_gen_cond_dep '
 	')
 	${PYTHON_DEPS}"
 
-DEPEND="${RDEPEND}"
+DEPEND="${RDEPEND}
+	$(python_gen_cond_dep '
+	test? (
+		dev-python/mock[${PYTHON_MULTI_USEDEP}]
+		dev-python/httmock[${PYTHON_MULTI_USEDEP}]
+		dev-python/unittest2[${PYTHON_MULTI_USEDEP}]
+	)
+	')
+"
 
 REQUIRED_USE="${PYTHON_REQUIRED_USE}"
 
 src_prepare() {
-	eapply "${FILESDIR}/paths-in-opt.patch"
+	eapply "${FILESDIR}/userpath-in-local-share.patch"
 
 	eapply_user
 
-	# remove useless directories and files due to paths-in-opt.patch
-	rm Readme.txt
-	rm -r db/
-
-	chmod a-x include/*.py
-	rm -f "include/pyconfig.h"
-	rm -f "include/Test"*.py
-	rm -f "test.py"
-	rm -rf "static/testing"
+	if ! use test; then
+		rm hydrus/hydrus_test.py
+		rm -r hydrus/test/
+	fi
 }
 
 src_compile() {
-	python3 -OO -m compileall -f .
+	python_optimize "${S}"
+}
+
+src_test() {
+	# The tests user unittest, but are run with a custom runner script.
+	# QT_QPA_PLATFORM is required to make them run without X
+	export QT_QPA_PLATFORM=offscreen
+	"${PYTHON}" "${S}/test.py" || die "Tests failed"
 }
 
 src_install() {
 	DOC="/usr/share/doc/${PF}"
 	elog "Hydrus includes an excellent manual, that can either be viewed at"
-	elog "${DOC}/html/index.html"
+	elog "${DOC}/html/help/index.html"
 	elog "or accessed through the hydrus help menu."
 
-	DOCS="COPYING README.md"
+	DOCS="COPYING README.md Readme.txt"
 	HTML_DOCS="${S}/help/"
 	einstalldocs
 
-	rm COPYING README.md
+	# These files are copied into DOC
+	rm COPYING README.md Readme.txt
 	rm -r help/
-	ln -s "${DOC}/html" help
-
-	use ffmpeg && ln -s "$(which ffmpeg)" bin/ffmpeg
+	# The program expects to find documentation here, so add a symlink from DOC
+	ln -s "${DOC}/html/help" help
 
 	insopts -m0755
 	insinto /opt/${PN}
