@@ -10,7 +10,7 @@ inherit git-r3 eutils python-single-r1 desktop
 DESCRIPTION="*booru style image collector and viewer"
 HOMEPAGE="http://hydrusnetwork.github.io/hydrus/ https://github.com/hydrusnetwork/hydrus"
 EGIT_REPO_URI="https://github.com/hydrusnetwork/hydrus.git"
-IUSE="+mpv +ffmpeg miniupnpc +lz4 socks matplotlib +cloudscraper charts test"
+IUSE="+mpv +ffmpeg miniupnpc +lz4 socks +cloudscraper charts test"
 
 LICENSE="WTFPL"
 SLOT="0"
