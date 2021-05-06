@@ -14,5 +14,6 @@
     <flag name="lz4">Enable memory compression in the client</flag>
     <flag name="socks">Support SOCKS proxies</flag>
     <flag name="cloudscraper">Support working around cloudflare anti-bot page</flag>
+    <flag name="charts">Suppot for bandwidth charts</flag>
   </use>
 </pkgmetadata>

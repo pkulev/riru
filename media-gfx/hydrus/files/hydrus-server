@@ -1,2 +1,2 @@
 #!/bin/sh
-/usr/bin/env python3 -OO /opt/hydrus/server.py "$@"
+exec /usr/bin/python -OO /opt/hydrus/server.py "$@"
