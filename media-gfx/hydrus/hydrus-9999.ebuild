@@ -45,8 +45,6 @@ RDEPEND="$(python_gen_cond_dep '
 	dev-python/six[${PYTHON_MULTI_USEDEP}]
 	dev-python/twisted[${PYTHON_MULTI_USEDEP}]
 
-	sys-apps/coreutils
-
 	ffmpeg? ( media-video/ffmpeg )
 	miniupnpc? ( net-libs/miniupnpc )
 	matplotlib? ( dev-python/matplotlib[${PYTHON_MULTI_USEDEP}] )
@@ -73,7 +71,17 @@ src_prepare() {
 	if ! use test; then
 		rm hydrus/hydrus_test.py
 		rm -r hydrus/test/
+		rm -r static/testing/
 	fi
+
+	# Contains pre-built binaries for other systems and a broken swf renderer for linux
+	rm -r bin/
+	# Build files used for CI, not actually needed
+	rm -r static/build_files
+	# Duplicate license file, not needed
+	rm license.txt
+	# Python requirements file, not needed
+	rm requirements.txt
 }
 
 src_compile() {
@@ -93,14 +101,16 @@ src_install() {
 	elog "${DOC}/html/help/index.html"
 	elog "or accessed through the hydrus help menu."
 
-	DOCS="COPYING README.md Readme.txt"
+	mv "help my client will not boot.txt" "help_my_client_will_not_boot.txt"
+
+	DOCS="COPYING README.md Readme.txt help_my_client_will_not_boot.txt db/"
 	HTML_DOCS="${S}/help/"
 	einstalldocs
 
 	# These files are copied into DOC
-	rm COPYING README.md Readme.txt
-	rm -r help/
-	# The program expects to find documentation here, so add a symlink from DOC
+	rm COPYING README.md Readme.txt help_my_client_will_not_boot.txt
+	rm -r help/ db/
+	# The program expects to find documentation here, so add a symlink to DOC
 	ln -s "${DOC}/html/help" help
 
 	insopts -m0755
