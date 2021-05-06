@@ -30,6 +30,7 @@ RDEPEND="$(python_gen_cond_dep '
 	media-libs/opencv[python,${PYTHON_MULTI_USEDEP}]
 	dev-python/pillow[${PYTHON_MULTI_USEDEP}]
 	dev-python/psutil[${PYTHON_MULTI_USEDEP}]
+	dev-python/pyopenssl[${PYTHON_MULTI_USEDEP}]
 	socks? (
 			|| ( dev-python/requests[socks5,${PYTHON_MULTI_USEDEP}]
 				dev-python/PySocks[${PYTHON_MULTI_USEDEP}] )
@@ -42,12 +43,12 @@ RDEPEND="$(python_gen_cond_dep '
 	dev-python/QtPy[${PYTHON_MULTI_USEDEP}]
 	dev-python/requests[${PYTHON_MULTI_USEDEP}]
 	dev-python/send2trash[${PYTHON_MULTI_USEDEP}]
+	dev-python/service_identity[${PYTHON_MULTI_USEDEP}]
 	dev-python/six[${PYTHON_MULTI_USEDEP}]
 	dev-python/twisted[${PYTHON_MULTI_USEDEP}]
 
 	ffmpeg? ( media-video/ffmpeg )
 	miniupnpc? ( net-libs/miniupnpc )
-	matplotlib? ( dev-python/matplotlib[${PYTHON_MULTI_USEDEP}] )
 	')
 	${PYTHON_DEPS}"
 

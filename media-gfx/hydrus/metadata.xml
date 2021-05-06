@@ -13,7 +13,6 @@
     <flag name="miniupnpc">Support for automatic port forwarding</flag>
     <flag name="lz4">Enable memory compression in the client</flag>
     <flag name="socks">Support SOCKS proxies</flag>
-    <flag name="matplotlib">Support drawing bandwidth graphs</flag>
     <flag name="cloudscraper">Support working around cloudflare anti-bot page</flag>
   </use>
 </pkgmetadata>
