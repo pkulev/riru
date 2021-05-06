@@ -16,6 +16,8 @@ LICENSE="WTFPL"
 SLOT="0"
 KEYWORDS=""
 
+RESTRICT="!test? ( test )"
+
 RDEPEND="$(python_gen_cond_dep '
 	dev-python/beautifulsoup:4[${PYTHON_MULTI_USEDEP}]
 	dev-python/chardet[${PYTHON_MULTI_USEDEP}]
