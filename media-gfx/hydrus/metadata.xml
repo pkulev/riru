@@ -1,6 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
+  <maintainer type="person">
+    <email>vaartis@kotobank.ch</email>
+  </maintainer>
   <longdescription>
     *booru-style image collector and tagger.
   </longdescription>
@@ -10,7 +13,6 @@
     <flag name="miniupnpc">Support for automatic port forwarding</flag>
     <flag name="lz4">Enable memory compression in the client</flag>
     <flag name="socks">Support SOCKS proxies</flag>
-    <flag name="matplotlib">Support drawing bandwidth graphs</flag>
     <flag name="cloudscraper">Support working around cloudflare anti-bot page</flag>
   </use>
 </pkgmetadata>
