@@ -10,7 +10,7 @@ inherit git-r3 eutils python-single-r1 desktop
 DESCRIPTION="*booru style image collector and viewer"
 HOMEPAGE="http://hydrusnetwork.github.io/hydrus/ https://github.com/hydrusnetwork/hydrus"
 EGIT_REPO_URI="https://github.com/hydrusnetwork/hydrus.git"
-IUSE="+mpv +ffmpeg miniupnpc +lz4 socks matplotlib +cloudscraper test"
+IUSE="+mpv +ffmpeg miniupnpc +lz4 socks +cloudscraper charts test"
 
 LICENSE="WTFPL"
 SLOT="0"
@@ -40,6 +40,7 @@ RDEPEND="$(python_gen_cond_dep '
 		 dev-python/python-mpv[${PYTHON_MULTI_USEDEP}]
 	)
 	dev-python/pyyaml[${PYTHON_MULTI_USEDEP}]
+	dev-python/pyside2[widgets,gui,charts?,${PYTHON_MULTI_USEDEP}]
 	dev-python/QtPy[${PYTHON_MULTI_USEDEP}]
 	dev-python/requests[${PYTHON_MULTI_USEDEP}]
 	dev-python/send2trash[${PYTHON_MULTI_USEDEP}]
@@ -119,8 +120,12 @@ src_install() {
 	doins -r "${S}"/* || die "Failed to move hydrus to opt."
 
 	exeinto /usr/bin
-	doexe "${FILESDIR}/hydrus-server"
-	doexe "${FILESDIR}/hydrus-client"
+
+	sed "s/python/${EPYTHON}/" "${FILESDIR}/hydrus-server" > "${T}/hydrus-server"
+	sed "s/python/${EPYTHON}/" "${FILESDIR}/hydrus-client" > "${T}/hydrus-client"
+
+	python_doexe "${T}/hydrus-server"
+	python_doexe "${T}/hydrus-client"
 
 	domenu "${FILESDIR}/hydrus.desktop"
 }
