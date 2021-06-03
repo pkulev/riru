@@ -1,0 +1,5 @@
+# Ekaterina Vaartis <vaartis@kotobank.ch> (2021-05-06)
+# No longer builds due to using deprected libraries and ocaml features
+# Please report if you are still using haxe: https://github.com/pkulev/riru/pull/65
+=dev-lang/haxe-3.4.7
+=dev-lang/neko-2.2.0
