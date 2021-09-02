@@ -43,7 +43,7 @@ RDEPEND="
 
 inherit cmake-utils
 
-S="${WORKDIR}/neko-2-2-0"
+S="${WORKDIR}/neko-${PV//./-}"
 
 src_configure() {
 	local mycmakeargs=(
