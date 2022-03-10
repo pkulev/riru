@@ -1,4 +1,4 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -12,22 +12,10 @@ KEYWORDS="~amd64"
 
 SRC_URI="https://github.com/HaxeFoundation/haxe/releases/download/${PV}/haxe-${PV}-linux64.tar.gz"
 
-IUSE="test"
-REQUIRED_USE="test? ( ${PYTHON_REQUIRED_USE} )"
-
 DEPEND="
 	dev-libs/libpcre
 	sys-libs/zlib
-	dev-lang/neko[regexp,ssl]
-
-	test? (
-		  net-libs/nodejs
-		  ${PYTHON_USEDEP}
-	)
-"
-RDEPEND="
-	sys-libs/zlib
-	dev-libs/libpcre
+	dev-lang/neko[ssl]
 "
 
 # installsources doesn't work properly
