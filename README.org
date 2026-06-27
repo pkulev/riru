@@ -36,11 +36,6 @@ This section is auto-generated. Run =bb readme:packages= to refresh it.
 |----------+------------+----------------------------------------------|
 | picolisp | 21.1       | PicoLisp - programming language and database |
 
-** dev-scheme
-| Name          | Version(s)    | Description                                                   |
-|---------------+---------------+---------------------------------------------------------------|
-| guile-ncurses | 1.6, 2.2, 3.0 | Guile Scheme ffi to ncurses library for text-based console UI |
-
 ** games-arcade
 | Name    | Version(s) | Description                  |
 |---------+------------+------------------------------|
@@ -79,13 +74,13 @@ This section is auto-generated. Run =bb readme:packages= to refresh it.
    - [[https://devmanual.gentoo.org/eclass-reference/ebuild/index.html][ebuild file format manual]] or =man 5 ebuild=
 
 ** Bump version for existing ebuild
-   Let's bump version of =dev-scheme/guile-ncurses= from =2.2= to =3.0= version.
+   Let's bump version of =dev-lang/hy= from =1.1.0= to =1.3.0= version.
    #+begin_src bash
-     $ cd dev-scheme/guile-ncurses
-     $ cp guile-ncurses-2.2.ebuild guile-ncurses-3.0.ebuild
-     $ repoman manifest
-     $ git add guile-ncurses-3.0.ebuild Manifest
-     $ git commit -s -m "dev-scheme/guile-ncurses: bump version to 3.0"
+     $ cd dev-lang/hy
+     $ cp hy-1.1.0.ebuild hy-1.3.0.ebuild
+     $ ebuild hy-1.3.0.ebuild manifest
+     $ git add hy-1.3.0.ebuild Manifest
+     $ git commit -s -m "dev-lang/hy: bump version to 1.3.0"
    #+end_src
 
 ** Adding new ebuilds
