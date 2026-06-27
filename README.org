@@ -3,16 +3,79 @@
 Home overlay for development, patches and live ebuilds.
 
 * Installation
-** Via layman
   #+begin_src bash
-    $ sudo layman -a riru
-    $ sudo layman -S
+    $ sudo eselect repository enable riru
+    $ sudo emaint sync -r riru
   #+end_src
+
+  We rarely add something that could interfere with your system like programming languages and
+  system libraries, so it's safe to leave it like that. But if you want to be extra sure:
+  - mask all packages from the overlay (=/etc/portage/package.mask/repo-riru=)
+    #+begin_src conf
+      ,*/*::riru
+    #+end_src
+
+  - and unmask (=/etc/portage/package.unmask/repo-riru=) only those you are interested in:
+    #+begin_src conf
+      category/package-name::riru
+    #+end_src
+
+* Packages
+
+This section is auto-generated. Run =bb readme:packages= to refresh it.
+
+# BEGIN GENERATED PACKAGES
+** dev-lang
+| Name     | Version(s)   | Description                                                                   |
+|----------+--------------+-------------------------------------------------------------------------------|
+| haxe-bin | 3.4.7, 4.2.3 | An open source toolkit based on a modern, strictly typed programming language |
+| hy       | 1.1.0        | A LISP dialect running in python                                              |
+
+** dev-lisp
+| Name     | Version(s) | Description                                  |
+|----------+------------+----------------------------------------------|
+| picolisp | 21.1       | PicoLisp - programming language and database |
+
+** dev-scheme
+| Name          | Version(s)    | Description                                                   |
+|---------------+---------------+---------------------------------------------------------------|
+| guile-ncurses | 1.6, 2.2, 3.0 | Guile Scheme ffi to ncurses library for text-based console UI |
+
+** games-arcade
+| Name    | Version(s) | Description                  |
+|---------+------------+------------------------------|
+| glsnake | 1.0.4      | OpenGL Snake game using SDL2 |
+
+** media-gfx
+| Name             | Version(s) | Description                                                            |
+|------------------+------------+------------------------------------------------------------------------|
+| bambu-studio-bin | 2.7.1.62   | Bambu Lab slicer for 3D printers                                       |
+| grafx2           | 2.4        | A pixelart-oriented painting program                                   |
+| krita-bin        | 5.2.11     | Free digital painting application. Digital Painting, Creative Freedom! |
+
+** media-video
+| Name         | Version(s) | Description                                                           |
+|--------------+------------+-----------------------------------------------------------------------|
+| baka-mplayer | 9999       | Cross-platform libmpv-based multimedia player with uncluttered design |
+
+** net-misc
+| Name           | Version(s) | Description                                                         |
+|----------------+------------+---------------------------------------------------------------------|
+| synology-drive | 4.0.0      | Client for the Synology Drive Server for syncing and sharing files. |
+
+** sys-apps
+| Name     | Version(s)    | Description                                               |
+|----------+---------------+-----------------------------------------------------------|
+| laptasus | 0.1_rc2, 9999 | ASUS laptop tools (backlight, keyboard backight and etc.) |
+
+# END GENERATED PACKAGES
+
 
 * How to contribute
 ** Useful links
    - [[https://devmanual.gentoo.org/][Gentoo developer documentation]]
    - [[https://dev.gentoo.org/~mgorny/articles/the-ultimate-guide-to-eapi-7.html][The ultimate guide to EAPI 7]]
+   - [[https://mgorny.pl/articles/the-ultimate-guide-to-eapi-8.html][The ultimate guide to EAPI 8]]
    - [[https://devmanual.gentoo.org/eclass-reference/ebuild/index.html][ebuild file format manual]] or =man 5 ebuild=
 
 ** Bump version for existing ebuild
@@ -28,6 +91,12 @@ Home overlay for development, patches and live ebuilds.
 ** Adding new ebuilds
    It's encouraged to use newest EAPI version possible, but you can use any EAPI
    that greater or equals to that written at =profiles/eapi= of this overlay.
+
+   After adding or bumping ebuilds, refresh packages list in this README:
+
+   #+begin_src bash
+     $ bb readme:packages
+   #+end_src
 
 ** Creating requests for writing ebuilds
    You also can create issue with detailed information about package you want see

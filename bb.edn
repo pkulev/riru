@@ -1,0 +1,15 @@
+{:paths ["tasks"]
+ :tasks
+ {:requires ([readme-packages :as packages])
+
+  readme:packages
+  {:doc "Regenerate the package index in README.org"
+   :task packages/update-readme!}
+
+  readme:packages:print
+  {:doc "Print the generated package index section"
+   :task packages/print-section!}
+
+  readme:packages:check
+  {:doc "Exit with an error when README.org is out of date"
+   :task packages/check-readme!}}}

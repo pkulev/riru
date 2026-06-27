@@ -1,4 +1,4 @@
-# Copyright 1999-2025 Gentoo Authors
+# Copyright 1999-2026 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -26,7 +26,7 @@ src_unpack() {
 	default
 	unpack "${WORKDIR}"/data.tar.xz
 
-	# Provided docs are useless
+	# Provided docs are useless.
 	rm -r usr/share/doc || die
 }
 
@@ -34,9 +34,9 @@ src_install() {
 	if ! use nautilus; then
 		rm -f  opt/Synology/SynologyDrive/package/cloudstation/icon-overlay/15/lib/plugin-cb{,-4}.so || die
 	fi
-	# XXX: I can't find libQt5Pdf.so, really where it can be?
+	# XXX: I can't find libQt5Pdf.so, really where can it be?
 	rm -f opt/Synology/SynologyDrive/package/cloudstation/lib/plugins/imageformats/libqpdf.so || die
-	# NOTE: probably old library
+	# NOTE: probably old library, there's extensions-4.
 	rm -rf usr/lib/nautilus/extensions-3.0 || die
 
 	insinto /
