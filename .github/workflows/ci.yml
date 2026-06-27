@@ -1,0 +1,30 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  readme:
+    name: README package index
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Babashka
+        uses: DeLaGuardo/setup-clojure@13.4
+        with:
+          bb: latest
+      - run: bb readme:packages:check
+
+  pkgcheck:
+    name: pkgcheck
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pkgcore/pkgcheck-action@v1
+        with:
+          args: >-
+            --keywords=-RedundantVersion
+            --net

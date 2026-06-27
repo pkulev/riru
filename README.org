@@ -2,6 +2,8 @@
 
 Home overlay for development, patches and live ebuilds.
 
+[![CI](https://github.com/pkulev/riru/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/pkulev/riru/actions/workflows/ci.yml)
+
 * Installation
   #+begin_src bash
     $ sudo eselect repository enable riru
@@ -92,6 +94,16 @@ This section is auto-generated. Run =bb readme:packages= to refresh it.
    #+begin_src bash
      $ bb readme:packages
    #+end_src
+
+** Continuous integration
+   CI runs on every push and pull request to =master= (see
+   [[https://github.com/pkulev/riru/actions/workflows/ci.yml][.github/workflows/ci.yml]]):
+
+   - =bb readme:packages:check= — package table in this README matches ebuilds
+   - =pkgcheck= — ebuild QA (with =--net= distfile fetch checks)
+
+   Before committing ebuild changes, run =bb readme:packages= to refresh the
+   package table, then =bb readme:packages:check= to verify it is up to date.
 
 ** Local ebuild testing
    You can test ebuilds against this overlay from the repo root. Portage scratch
