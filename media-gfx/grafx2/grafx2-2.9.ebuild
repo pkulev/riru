@@ -1,11 +1,11 @@
-# Copyright 1999-2025 Gentoo Authors
+# Copyright 1999-2026 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
 
 DESCRIPTION="A pixelart-oriented painting program"
-HOMEPAGE="http://pulkomandy.tk/projects/GrafX2/downloads"
-SRC_URI="http://pulkomandy.tk/projects/GrafX2/downloads/21 -> ${P}.tar.gz"
+HOMEPAGE="https://pulkomandy.tk/projects/GrafX2/downloads"
+SRC_URI="https://pulkomandy.tk/projects/GrafX2/downloads/74 -> ${P}.tar.gz"
 
 LICENSE="GPL-2"
 SLOT="0"
@@ -20,7 +20,7 @@ DEPEND="media-libs/libsdl
 	lua? ( >=dev-lang/lua-5.1.0 )"
 RDEPEND=""
 
-S=${WORKDIR}/${PN}
+S=${WORKDIR}/${PN}-v${PV}
 
 src_prepare() {
 	sed -i s/lua5\.1/lua/g src/Makefile
@@ -30,13 +30,15 @@ src_prepare() {
 src_compile() {
 	use ttf || MYCNF="NOTTF=1"
 	use lua || MYCNF="${MYCNF} NOLUA=1"
-	cd ${WORKDIR}/${PN}/src/
+	cd ${S}/src/
 	emake ${MYCNF} || die "emake failed"
 }
 
 src_install() {
-	cd ${WORKDIR}/${PN}/src/
-	emake DESTDIR="${D}" PREFIX="/usr" install || die "Install failed"
+	use ttf || MYCNF="NOTTF=1"
+	use lua || MYCNF="${MYCNF} NOLUA=1"
+	cd ${S}/src/
+	emake DESTDIR="${D}" PREFIX="/usr" ${MYCNF} install || die "Install failed"
 }
 
 pkg_postinst() {
