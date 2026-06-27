@@ -51,9 +51,9 @@ This section is auto-generated. Run =bb readme:packages= to refresh it.
 | krita-bin        | 6.0.2      | Free digital painting application. Digital Painting, Creative Freedom! |
 
 ** media-video
-| Name         | Version(s)  | Description                                                           |
-|--------------+-------------+-----------------------------------------------------------------------|
-| baka-mplayer | 2.0.4, 9999 | Cross-platform libmpv-based multimedia player with uncluttered design |
+| Name         | Version(s) | Description                                                           |
+|--------------+------------+-----------------------------------------------------------------------|
+| baka-mplayer | 9999       | Cross-platform libmpv-based multimedia player with uncluttered design |
 
 ** net-misc
 | Name           | Version(s) | Description                                                         |
