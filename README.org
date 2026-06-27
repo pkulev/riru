@@ -26,10 +26,10 @@ This section is auto-generated. Run =bb readme:packages= to refresh it.
 
 # BEGIN GENERATED PACKAGES
 ** dev-lang
-| Name     | Version(s)   | Description                                                                   |
-|----------+--------------+-------------------------------------------------------------------------------|
-| haxe-bin | 3.4.7, 4.2.3 | An open source toolkit based on a modern, strictly typed programming language |
-| hy       | 1.1.0        | A LISP dialect running in python                                              |
+| Name     | Version(s) | Description                                                                   |
+|----------+------------+-------------------------------------------------------------------------------|
+| haxe-bin | 4.3.7      | An open source toolkit based on a modern, strictly typed programming language |
+| hy       | 1.3.0      | A LISP dialect running in python                                              |
 
 ** dev-lisp
 | Name     | Version(s) | Description                                  |

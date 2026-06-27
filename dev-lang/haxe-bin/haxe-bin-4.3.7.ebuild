@@ -1,7 +1,7 @@
-# Copyright 1999-2022 Gentoo Authors
+# Copyright 1999-2026 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
 DESCRIPTION="An open source toolkit based on a modern, strictly typed programming language"
 HOMEPAGE="https://haxe.org/"
@@ -21,7 +21,7 @@ DEPEND="
 # installsources doesn't work properly
 RESTRICT="installsources"
 
-S="${WORKDIR}/haxe_20210701100239_1385eda"
+S="${WORKDIR}/haxe_20250509143529_e0b355c"
 
 src_install() {
 	dobin haxe haxelib
