@@ -93,6 +93,22 @@ This section is auto-generated. Run =bb readme:packages= to refresh it.
      $ bb readme:packages
    #+end_src
 
+** Local ebuild testing
+   You can test ebuilds against this overlay from the repo root. Portage scratch
+   directories (=.portage*=) are gitignored and safe to leave in the tree.
+
+   #+begin_src bash
+     $ PORTDIR_OVERLAY=$PWD DISTDIR=$PWD/distdir \
+       ebuild path/to/foo-version.ebuild clean install
+     # staged image: .portage-tmp/portage/category/foo-version/image/
+   #+end_src
+
+   Or a full emerge dry-run against the overlay:
+
+   #+begin_src bash
+     $ PORTDIR_OVERLAY=$PWD emerge -pv =category/foo-version::riru
+   #+end_src
+
 ** Creating requests for writing ebuilds
    You also can create issue with detailed information about package you want see
    in Gentoo. It's totally not guaranteed that it will be done, but who knows.
