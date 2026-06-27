@@ -1,0 +1,13 @@
+DEFINED_PHASES=install postinst postrm unpack
+DESCRIPTION=Client for the Synology Drive Server for syncing and sharing files.
+EAPI=8
+HOMEPAGE=https://kb.synology.com/en-global/DSM/help/SynologyDriveClient/synologydriveclient?version=7
+INHERIT=desktop xdg-utils
+IUSE=nautilus
+KEYWORDS=~amd64
+RDEPEND=nautilus? ( gnome-base/nautilus )
+RESTRICT=bindist mirror strip
+SLOT=0
+SRC_URI=https://global.synologydownload.com/download/Utility/SynologyDriveClient/4.0.0-17877/Ubuntu/Installer/synology-drive-client-17877.x86_64.deb
+_eclasses_=desktop	26d57169ca094c04be416993844ec8bc	xdg-utils	42869b3c8d86a70ef3cf75165a395e09
+_md5_=70e1d0cab40ca8df68ee92667d9e5d6c

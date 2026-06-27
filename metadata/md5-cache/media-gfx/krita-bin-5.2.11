@@ -1,0 +1,9 @@
+DEFINED_PHASES=install
+DESCRIPTION=Free digital painting application. Digital Painting, Creative Freedom!
+EAPI=8
+HOMEPAGE=https://www.kde.org/applications/graphics/krita/ https://krita.org/
+KEYWORDS=~amd64 ~x86
+LICENSE=GPL-3
+SLOT=0
+SRC_URI=http://download.kde.org/stable/krita/5.2.11/krita-5.2.11-x86_64.AppImage
+_md5_=926df5e0a04e81a3c03ad51869c36618

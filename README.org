@@ -3,16 +3,27 @@
 Home overlay for development, patches and live ebuilds.
 
 * Installation
-** Via layman
   #+begin_src bash
-    $ sudo layman -a riru
-    $ sudo layman -S
+    $ sudo eselect repository enable riru
+    $ sudo emaint sync -r riru
   #+end_src
 
+  We rarely add something that could interfere with your system like programming languages and
+  system libraries, so it's safe to leave it like that. But if you want to be extra sure:
+  - mask all packages from the overlay (=/etc/portage/package.mask/repo-riru=)
+    #+begin_src conf
+      ,*/*::riru
+    #+end_src
+
+  - and unmask (=/etc/portage/package.unmask/repo-riru=) only those you are interested in:
+    #+begin_src conf
+      category/package-name::riru
+    #+end_src
 * How to contribute
 ** Useful links
    - [[https://devmanual.gentoo.org/][Gentoo developer documentation]]
    - [[https://dev.gentoo.org/~mgorny/articles/the-ultimate-guide-to-eapi-7.html][The ultimate guide to EAPI 7]]
+   - [[https://mgorny.pl/articles/the-ultimate-guide-to-eapi-8.html][The ultimate guide to EAPI 8]]
    - [[https://devmanual.gentoo.org/eclass-reference/ebuild/index.html][ebuild file format manual]] or =man 5 ebuild=
 
 ** Bump version for existing ebuild

@@ -1,0 +1,9 @@
+DEFINED_PHASES=-
+DESCRIPTION=ASUS laptop tools (backlight, keyboard backight and etc.)
+EAPI=8
+HOMEPAGE=https://github.com/pkulev/laptasus.git
+KEYWORDS=~amd64 ~x86
+LICENSE=MIT
+SLOT=0
+SRC_URI=https://github.com/pkulev/laptasus/archive/v0.1_rc2.tar.gz
+_md5_=6d5e68ea9dc607323aaa1bce09243ab1

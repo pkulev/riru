@@ -1,0 +1,11 @@
+BDEPEND=>=dev-vcs/git-1.8.2.1[curl]
+DEFINED_PHASES=unpack
+DESCRIPTION=ASUS laptop tools (backlight, keyboard backight and etc.)
+EAPI=8
+HOMEPAGE=https://github.com/pkulev/laptasus.git
+INHERIT=git-r3
+LICENSE=MIT
+PROPERTIES=live
+SLOT=0
+_eclasses_=git-r3	2f8cdb10b033f92c3136aa6488a31c98
+_md5_=3778002140b7c0459bdb9f6ca1ae815d
