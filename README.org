@@ -34,7 +34,7 @@ This section is auto-generated. Run =bb readme:packages= to refresh it.
 ** dev-lisp
 | Name     | Version(s) | Description                                  |
 |----------+------------+----------------------------------------------|
-| picolisp | 21.1       | PicoLisp - programming language and database |
+| picolisp | 25.12      | PicoLisp - programming language and database |
 
 ** games-arcade
 | Name    | Version(s) | Description                  |
