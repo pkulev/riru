@@ -1,0 +1,14 @@
+#!/bin/sh
+# Copyright 1999-2026 Gentoo Authors
+# Distributed under the terms of the GNU General Public License v2
+
+APPIMAGE="/opt/bambu-studio-bin/bambu-studio-bin.AppImage"
+
+# AppRun sets LC_ALL=C to avoid locale-related segfaults on some distros.
+export LC_ALL=C
+
+# WebKit2GTK uses GStreamer GL with a GBM EGL display. That fails on some
+# NVIDIA/Mesa setups where only X11 EGL works (common on Gentoo).
+export WEBKIT_DISABLE_DMABUF_RENDERER=1
+
+exec "${APPIMAGE}" "$@"
