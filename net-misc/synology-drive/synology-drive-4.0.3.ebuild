@@ -6,7 +6,7 @@ EAPI=8
 inherit desktop xdg-utils
 
 # Build, I guess.
-BV="17877"
+BV="17892"
 
 DESCRIPTION="Client for the Synology Drive Server for syncing and sharing files."
 HOMEPAGE="https://kb.synology.com/en-global/DSM/help/SynologyDriveClient/synologydriveclient?version=7"

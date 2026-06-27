@@ -1,7 +1,7 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2026 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
 inherit llvm
 
@@ -13,23 +13,21 @@ LICENSE="MIT X11"
 SLOT="0"
 KEYWORDS="~x86 ~amd64"
 
-BDEPEND=">=sys-devel/clang-3.5
-"
+BDEPEND=">=sys-devel/clang-3.5"
 
-DEPEND="${LLVM_DEPEND}
-"
+DEPEND="${LLVM_DEPEND}"
 
 S=${WORKDIR}/pil21
 
 src_compile() {
-	cd "${S}/src"
+	cd "${S}/src" || die
 	emake || die "emake failed"
 }
 
 src_install() {
-	chmod -x ${S}/bin/picolisp
-	dobin ${S}/bin/picolisp
-	dobin ${S}/bin/pil
-	mkdir -p ${D}/usr/lib/
-	cp -R ${S}/lib ${D}/usr/lib/picolisp
+	chmod -x "${S}/bin/picolisp" || die
+	dobin "${S}/bin/picolisp"
+	dobin "${S}/bin/pil"
+	mkdir -p "${D}/usr/lib/" || die
+	cp -R "${S}/lib" "${D}/usr/lib/picolisp" || die
 }

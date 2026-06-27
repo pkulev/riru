@@ -5,7 +5,7 @@ EAPI=8
 
 DESCRIPTION="Free digital painting application. Digital Painting, Creative Freedom!"
 HOMEPAGE="https://www.kde.org/applications/graphics/krita/ https://krita.org/"
-SRC_URI="http://download.kde.org/stable/krita/${PV}/krita-${PV}-x86_64.AppImage"
+SRC_URI="https://download.kde.org/stable/krita/${PV}/krita-${PV}-x86_64.AppImage"
 
 LICENSE="GPL-3"
 SLOT="0"
