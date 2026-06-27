@@ -1,0 +1,24 @@
+{:paths ["tasks"]
+ :tasks
+ {:requires ([readme-packages :as packages]
+             [metadata-cache :as metadata])
+
+  readme:packages
+  {:doc "Regenerate the package index in README.org"
+   :task packages/update-readme!}
+
+  readme:packages:print
+  {:doc "Print the generated package index section"
+   :task packages/print-section!}
+
+  readme:packages:check
+  {:doc "Exit with an error when README.org is out of date"
+   :task packages/check-readme!}
+
+  metadata:cache
+  {:doc "Regenerate metadata/md5-cache for the overlay"
+   :task metadata/update-cache!}
+
+  metadata:cache:check
+  {:doc "Exit with an error when metadata/md5-cache is out of date"
+   :task metadata/check-cache!}}}
