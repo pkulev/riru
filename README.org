@@ -61,7 +61,7 @@ This section is auto-generated. Run =bb readme:packages= to refresh it.
 ** net-misc
 | Name           | Version(s) | Description                                                         |
 |----------------+------------+---------------------------------------------------------------------|
-| synology-drive | 4.0.0      | Client for the Synology Drive Server for syncing and sharing files. |
+| synology-drive | 4.0.3      | Client for the Synology Drive Server for syncing and sharing files. |
 
 ** sys-apps
 | Name     | Version(s)    | Description                                               |
