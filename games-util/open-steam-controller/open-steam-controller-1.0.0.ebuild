@@ -1,0 +1,477 @@
+# Copyright 2026 Gentoo Authors
+# Distributed under the terms of the GNU General Public License v2
+
+# CRATES and LICENSE maintained with: pycargoebuild -i ${PN}-${PV}.ebuild
+
+EAPI=8
+
+CRATES="
+	ab_glyph@0.2.32
+	ab_glyph_rasterizer@0.1.10
+	adler2@2.0.1
+	ahash@0.8.12
+	aho-corasick@1.1.4
+	aligned-vec@0.6.4
+	aligned@0.4.3
+	android-activity@0.6.0
+	android-properties@0.2.2
+	ansi_term@0.12.1
+	anstream@0.6.21
+	anstyle-parse@0.2.7
+	anstyle-query@1.1.5
+	anstyle-wincon@3.0.11
+	anstyle@1.0.13
+	anyhow@1.0.102
+	arbitrary@1.4.2
+	arg_enum_proc_macro@0.3.4
+	arrayref@0.3.9
+	arrayvec@0.7.6
+	as-raw-xcb-connection@1.0.1
+	as-slice@0.2.1
+	atk-sys@0.18.2
+	atk@0.18.2
+	atomic-waker@1.1.2
+	atty@0.2.14
+	autocfg@1.5.0
+	av-scenechange@0.14.1
+	av1-grain@0.2.5
+	avif-serialize@0.8.8
+	bit_field@0.10.3
+	bitflags@1.3.2
+	bitflags@2.12.1
+	bitstream-io@4.9.0
+	block2@0.5.1
+	block2@0.6.2
+	built@0.8.0
+	bumpalo@3.20.2
+	bytemuck@1.25.0
+	byteorder-lite@0.1.0
+	byteorder@1.5.0
+	bytes@0.4.12
+	bytes@1.11.1
+	cairo-rs@0.18.5
+	cairo-sys-rs@0.18.2
+	calloop-wayland-source@0.3.0
+	calloop@0.13.0
+	cc@1.2.55
+	cesu8@1.1.0
+	cfg-expr@0.15.8
+	cfg-if@0.1.10
+	cfg-if@1.0.4
+	cfg_aliases@0.2.1
+	clap@2.34.0
+	clap@4.5.58
+	clap_builder@4.5.58
+	clap_derive@4.5.55
+	clap_lex@1.0.0
+	color_quant@1.1.0
+	colorchoice@1.0.4
+	combine@4.6.7
+	concurrent-queue@2.5.0
+	const_format@0.2.36
+	const_format_proc_macros@0.2.34
+	core-foundation-sys@0.8.7
+	core-foundation@0.9.4
+	core-graphics-types@0.1.3
+	core-graphics@0.23.2
+	core2@0.4.0
+	crc32fast@1.5.0
+	crossbeam-channel@0.5.15
+	crossbeam-deque@0.8.6
+	crossbeam-epoch@0.9.18
+	crossbeam-utils@0.8.21
+	crunchy@0.2.4
+	cursor-icon@1.2.0
+	custom_derive@0.1.7
+	dbus-codegen@0.9.1
+	dbus-tree@0.9.2
+	dbus@0.9.10
+	dialog@0.3.0
+	dirs-sys@0.3.7
+	dirs-sys@0.5.0
+	dirs@2.0.2
+	dirs@6.0.0
+	dispatch2@0.3.0
+	dispatch@0.2.0
+	dlib@0.5.3
+	downcast-rs@1.2.1
+	dpi@0.1.2
+	either@1.15.0
+	enum_derive@0.1.7
+	equator-macro@0.4.2
+	equator@0.4.2
+	equivalent@1.0.2
+	errno@0.3.14
+	exr@1.74.0
+	fax@0.2.6
+	fax_derive@0.2.0
+	fdeflate@0.3.7
+	field-offset@0.3.6
+	find-msvc-tools@0.1.9
+	flate2@1.1.9
+	foreign-types-macros@0.2.3
+	foreign-types-shared@0.3.1
+	foreign-types@0.5.0
+	futures-channel@0.3.32
+	futures-core@0.3.32
+	futures-executor@0.3.32
+	futures-io@0.3.32
+	futures-macro@0.3.32
+	futures-task@0.3.32
+	futures-util@0.3.32
+	gcc@0.3.55
+	gdk-pixbuf-sys@0.18.0
+	gdk-pixbuf@0.18.5
+	gdk-sys@0.18.2
+	gdk@0.18.2
+	gethostname@1.1.0
+	getrandom@0.2.17
+	getrandom@0.3.4
+	gif@0.14.1
+	gio-sys@0.18.1
+	gio@0.18.4
+	glib-macros@0.18.5
+	glib-sys@0.18.1
+	glib@0.18.5
+	gobject-sys@0.18.0
+	gtk-sys@0.18.2
+	gtk3-macros@0.18.2
+	gtk@0.18.2
+	half@2.7.1
+	hashbrown@0.16.1
+	heck@0.4.1
+	heck@0.5.0
+	hermit-abi@0.1.19
+	hermit-abi@0.5.2
+	hidapi@2.6.6
+	image-webp@0.2.4
+	image@0.25.10
+	imgref@1.12.0
+	indexmap@2.13.0
+	interpolate_name@0.2.4
+	ioctl-sys@0.5.2
+	iovec@0.1.4
+	is_terminal_polyfill@1.70.2
+	itertools@0.14.0
+	jni-sys@0.3.0
+	jni@0.21.1
+	jobserver@0.1.34
+	js-sys@0.3.91
+	kernel32-sys@0.2.2
+	keyboard-types@0.7.0
+	konst@0.2.20
+	konst_macro_rules@0.2.19
+	ksni@0.2.2
+	lebe@0.5.3
+	libappindicator-sys@0.9.0
+	libappindicator@0.9.0
+	libc@0.2.182
+	libdbus-sys@0.2.7
+	libfuzzer-sys@0.4.12
+	libloading@0.7.4
+	libloading@0.8.9
+	libredox@0.1.14
+	libudev-sys@0.1.4
+	libudev@0.2.0
+	libxdo-sys@0.11.0
+	libxdo@0.6.0
+	linux-raw-sys@0.12.1
+	linux-raw-sys@0.4.15
+	log@0.4.29
+	loop9@0.1.5
+	maybe-rayon@0.1.1
+	memchr@2.8.0
+	memmap2@0.9.10
+	memoffset@0.9.1
+	miniz_oxide@0.8.9
+	moxcms@0.8.1
+	muda@0.17.1
+	ndk-context@0.1.1
+	ndk-sys@0.6.0+11769913
+	ndk@0.9.0
+	new_debug_unreachable@1.0.6
+	nix@0.10.0
+	nom@8.0.0
+	noop_proc_macro@0.3.0
+	num-bigint@0.4.6
+	num-derive@0.4.2
+	num-integer@0.1.46
+	num-rational@0.4.2
+	num-traits@0.2.19
+	num_enum@0.7.6
+	num_enum_derive@0.7.6
+	objc-sys@0.3.5
+	objc2-app-kit@0.2.2
+	objc2-app-kit@0.3.2
+	objc2-cloud-kit@0.2.2
+	objc2-contacts@0.2.2
+	objc2-core-data@0.2.2
+	objc2-core-foundation@0.3.2
+	objc2-core-graphics@0.3.2
+	objc2-core-image@0.2.2
+	objc2-core-location@0.2.2
+	objc2-encode@4.1.0
+	objc2-foundation@0.2.2
+	objc2-foundation@0.3.2
+	objc2-link-presentation@0.2.2
+	objc2-metal@0.2.2
+	objc2-quartz-core@0.2.2
+	objc2-symbols@0.2.2
+	objc2-ui-kit@0.2.2
+	objc2-uniform-type-identifiers@0.2.2
+	objc2-user-notifications@0.2.2
+	objc2@0.5.2
+	objc2@0.6.3
+	once_cell@1.21.4
+	once_cell_polyfill@1.70.2
+	option-ext@0.2.0
+	orbclient@0.3.51
+	owned_ttf_parser@0.25.1
+	pango-sys@0.18.0
+	pango@0.18.3
+	paste@1.0.15
+	pastey@0.1.1
+	percent-encoding@2.3.2
+	pin-project-internal@1.1.11
+	pin-project-lite@0.2.17
+	pin-project@1.1.11
+	pkg-config@0.3.32
+	plain@0.2.3
+	png@0.17.16
+	png@0.18.1
+	polling@3.11.0
+	ppv-lite86@0.2.21
+	proc-macro-crate@1.3.1
+	proc-macro-crate@2.0.2
+	proc-macro-error-attr@1.0.4
+	proc-macro-error@1.0.4
+	proc-macro2@1.0.106
+	profiling-procmacros@1.0.17
+	profiling@1.0.17
+	pxfm@0.1.28
+	qoi@0.4.1
+	quick-error@2.0.1
+	quick-xml@0.39.2
+	quote@1.0.44
+	r-efi@5.3.0
+	rand@0.9.2
+	rand_chacha@0.9.0
+	rand_core@0.9.5
+	rav1e@0.8.1
+	ravif@0.13.0
+	raw-window-handle@0.6.2
+	rayon-core@1.13.0
+	rayon@1.11.0
+	redox_syscall@0.4.1
+	redox_syscall@0.7.3
+	redox_users@0.4.6
+	redox_users@0.5.2
+	regex-automata@0.4.14
+	regex-syntax@0.8.9
+	regex@1.12.3
+	rgb@0.8.53
+	rpassword@2.1.0
+	rustc_version@0.4.1
+	rustix@0.38.44
+	rustix@1.1.4
+	rustversion@1.0.22
+	same-file@1.0.6
+	scoped-tls@1.0.1
+	sctk-adwaita@0.10.1
+	semver@1.0.27
+	serde@1.0.228
+	serde_core@1.0.228
+	serde_derive@1.0.228
+	serde_spanned@0.6.9
+	shell-escape@0.1.5
+	shlex@1.3.0
+	simd-adler32@0.3.8
+	simd_helpers@0.1.0
+	slab@0.4.12
+	smallvec@1.15.1
+	smithay-client-toolkit@0.19.2
+	smol_str@0.2.2
+	stable_deref_trait@1.2.1
+	strict-num@0.1.1
+	strsim@0.11.1
+	strsim@0.8.0
+	syn@1.0.109
+	syn@2.0.115
+	system-deps@6.2.2
+	target-lexicon@0.12.16
+	textwrap@0.11.0
+	thiserror-impl@1.0.69
+	thiserror-impl@2.0.18
+	thiserror@1.0.69
+	thiserror@2.0.18
+	thistermination@1.1.0
+	tiff@0.11.3
+	tiny-skia-path@0.11.4
+	tiny-skia@0.11.4
+	toml@0.8.2
+	toml_datetime@0.6.3
+	toml_edit@0.19.15
+	toml_edit@0.20.2
+	tracing-core@0.1.36
+	tracing@0.1.44
+	tray-icon@0.21.3
+	ttf-parser@0.25.1
+	uinput-sys@0.1.7
+	uinput@0.1.3
+	unicode-ident@1.0.23
+	unicode-segmentation@1.12.0
+	unicode-width@0.1.14
+	unicode-xid@0.2.6
+	utf8parse@0.2.2
+	v_frame@0.3.9
+	vec_map@0.8.2
+	version-compare@0.2.1
+	version_check@0.9.5
+	vigem-client@0.1.4
+	void@1.0.2
+	walkdir@2.5.0
+	wasi@0.11.1+wasi-snapshot-preview1
+	wasip2@1.0.2+wasi-0.2.9
+	wasm-bindgen-futures@0.4.64
+	wasm-bindgen-macro-support@0.2.114
+	wasm-bindgen-macro@0.2.114
+	wasm-bindgen-shared@0.2.114
+	wasm-bindgen@0.2.114
+	wayland-backend@0.3.14
+	wayland-client@0.31.13
+	wayland-csd-frame@0.3.0
+	wayland-cursor@0.31.13
+	wayland-protocols-plasma@0.3.11
+	wayland-protocols-wlr@0.3.11
+	wayland-protocols@0.32.11
+	wayland-scanner@0.31.9
+	wayland-sys@0.31.10
+	web-sys@0.3.91
+	web-time@1.1.0
+	weezl@0.1.12
+	winapi-build@0.1.1
+	winapi-i686-pc-windows-gnu@0.4.0
+	winapi-util@0.1.11
+	winapi-x86_64-pc-windows-gnu@0.4.0
+	winapi@0.2.8
+	winapi@0.3.9
+	windows-collections@0.3.2
+	windows-core@0.62.2
+	windows-future@0.3.2
+	windows-implement@0.60.2
+	windows-interface@0.59.3
+	windows-link@0.2.1
+	windows-numerics@0.3.1
+	windows-result@0.4.1
+	windows-strings@0.5.1
+	windows-sys@0.45.0
+	windows-sys@0.52.0
+	windows-sys@0.59.0
+	windows-sys@0.60.2
+	windows-sys@0.61.2
+	windows-targets@0.42.2
+	windows-targets@0.52.6
+	windows-targets@0.53.5
+	windows-threading@0.2.1
+	windows@0.62.2
+	windows_aarch64_gnullvm@0.42.2
+	windows_aarch64_gnullvm@0.52.6
+	windows_aarch64_gnullvm@0.53.1
+	windows_aarch64_msvc@0.42.2
+	windows_aarch64_msvc@0.52.6
+	windows_aarch64_msvc@0.53.1
+	windows_i686_gnu@0.42.2
+	windows_i686_gnu@0.52.6
+	windows_i686_gnu@0.53.1
+	windows_i686_gnullvm@0.52.6
+	windows_i686_gnullvm@0.53.1
+	windows_i686_msvc@0.42.2
+	windows_i686_msvc@0.52.6
+	windows_i686_msvc@0.53.1
+	windows_x86_64_gnu@0.42.2
+	windows_x86_64_gnu@0.52.6
+	windows_x86_64_gnu@0.53.1
+	windows_x86_64_gnullvm@0.42.2
+	windows_x86_64_gnullvm@0.52.6
+	windows_x86_64_gnullvm@0.53.1
+	windows_x86_64_msvc@0.42.2
+	windows_x86_64_msvc@0.52.6
+	windows_x86_64_msvc@0.53.1
+	winit@0.30.13
+	winnow@0.5.40
+	winreg@0.56.0
+	wit-bindgen@0.51.0
+	x11-dl@2.21.0
+	x11@2.21.0
+	x11rb-protocol@0.13.2
+	x11rb@0.13.2
+	xcursor@0.3.10
+	xkbcommon-dl@0.4.2
+	xkeysym@0.2.1
+	xml-rs@0.8.28
+	y4m@0.8.0
+	zerocopy-derive@0.8.42
+	zerocopy@0.8.42
+	zune-core@0.5.1
+	zune-inflate@0.2.54
+	zune-jpeg@0.5.13
+"
+
+inherit cargo desktop linux-info udev xdg
+
+DESCRIPTION="Tray application for the Steam Controller (2026) without Steam"
+HOMEPAGE="https://github.com/LennardKittner/OpenSteamController"
+SRC_URI="
+	https://github.com/LennardKittner/OpenSteamController/archive/refs/tags/v${PV}.tar.gz
+		-> ${P}.tar.gz
+	${CARGO_CRATE_URIS}
+"
+
+S="${WORKDIR}/OpenSteamController-${PV}"
+
+RUST_MIN_VER="1.88.0"
+
+LICENSE="MIT"
+# Dependent crate licenses
+LICENSE+="
+	Apache-2.0 Apache-2.0-with-LLVM-exceptions BSD-2 BSD ISC MIT MPL-2.0
+	UoI-NCSA Unicode-3.0 Unlicense WTFPL-2 ZLIB
+"
+SLOT="0"
+KEYWORDS="~amd64"
+
+RESTRICT="test"
+
+DEPEND="
+	dev-libs/hidapi
+	dev-libs/libusb:1
+	sys-apps/dbus
+	virtual/libudev
+"
+RDEPEND="${DEPEND}"
+
+QA_FLAGS_IGNORED="usr/bin/open-steam-controller"
+
+# FIXME: wait for https://github.com/LennardKittner/OpenSteamController/pull/2 being merged.
+src_prepare() {
+	default
+	sed -i 's/Categories=Game, Utility/Categories=Game;Utility/' \
+		open-steam-controller.desktop || die
+}
+
+src_install() {
+	cargo_src_install
+
+	udev_dorules "${S}/99-open-steam-controller.rules"
+	domenu "${S}/open-steam-controller.desktop"
+}
+
+pkg_postinst() {
+	udev_reload
+	xdg_desktop_database_update
+}
+
+pkg_postrm() {
+	udev_reload
+	xdg_desktop_database_update
+}
