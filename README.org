@@ -2,7 +2,7 @@
 
 Home overlay for development, patches and live ebuilds.
 
-[![CI](https://github.com/pkulev/riru/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/pkulev/riru/actions/workflows/ci.yml)
+[[https://github.com/pkulev/riru/actions/workflows/ci.yml][https://github.com/pkulev/riru/actions/workflows/ci.yml/badge.svg?branch=master]]
 
 * Installation
   #+begin_src bash
