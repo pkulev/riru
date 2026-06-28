@@ -1,4 +1,4 @@
-{:paths ["tasks"]
+{:paths ["scripts"]
  :tasks
  {:requires ([readme-packages :as packages])
 

@@ -6,13 +6,12 @@ EAPI=8
 inherit git-r3 qmake-utils xdg-utils
 
 DESCRIPTION="Cross-platform libmpv-based multimedia player with uncluttered design"
-HOMEPAGE="http://bakamplayer.u8sand.net/"
+HOMEPAGE="https://bakamplayer.u8sand.net/"
 EGIT_REPO_URI="https://github.com/u8sand/Baka-MPlayer.git"
 
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS=""
-IUSE=""
 
 BDEPEND="
 	dev-qt/linguist-tools:5

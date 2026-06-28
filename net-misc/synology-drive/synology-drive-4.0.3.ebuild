@@ -13,12 +13,13 @@ HOMEPAGE="https://kb.synology.com/en-global/DSM/help/SynologyDriveClient/synolog
 SRC_URI="https://global.synologydownload.com/download/Utility/SynologyDriveClient/${PV}-${BV}/Ubuntu/Installer/synology-drive-client-${BV}.x86_64.deb"
 S="${WORKDIR}"
 
-LICENSE=""
+LICENSE="Synology"
 SLOT="0"
 KEYWORDS="~amd64"
 IUSE="nautilus"
 
 RESTRICT="bindist mirror strip"
+QA_PREBUILT="*"
 
 RDEPEND="nautilus? ( gnome-base/nautilus )"
 

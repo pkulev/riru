@@ -2,6 +2,8 @@
 
 Home overlay for development, patches and live ebuilds.
 
+[![CI](https://github.com/pkulev/riru/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/pkulev/riru/actions/workflows/ci.yml)
+
 * Installation
   #+begin_src bash
     $ sudo eselect repository enable riru
@@ -49,9 +51,9 @@ This section is auto-generated. Run =bb readme:packages= to refresh it.
 | krita-bin        | 6.0.2      | Free digital painting application. Digital Painting, Creative Freedom! |
 
 ** media-video
-| Name         | Version(s)  | Description                                                           |
-|--------------+-------------+-----------------------------------------------------------------------|
-| baka-mplayer | 2.0.4, 9999 | Cross-platform libmpv-based multimedia player with uncluttered design |
+| Name         | Version(s) | Description                                                           |
+|--------------+------------+-----------------------------------------------------------------------|
+| baka-mplayer | 9999       | Cross-platform libmpv-based multimedia player with uncluttered design |
 
 ** net-misc
 | Name           | Version(s) | Description                                                         |
@@ -91,6 +93,32 @@ This section is auto-generated. Run =bb readme:packages= to refresh it.
 
    #+begin_src bash
      $ bb readme:packages
+   #+end_src
+
+** Continuous integration
+   CI runs on every push and pull request to =master= (see
+   [[https://github.com/pkulev/riru/actions/workflows/ci.yml][.github/workflows/ci.yml]]):
+
+   - =bb readme:packages:check= — package table in this README matches ebuilds
+   - =pkgcheck= — ebuild QA (with =--net= distfile fetch checks)
+
+   Before committing ebuild changes, run =bb readme:packages= to refresh the
+   package table, then =bb readme:packages:check= to verify it is up to date.
+
+** Local ebuild testing
+   You can test ebuilds against this overlay from the repo root. Portage scratch
+   directories (=.portage*=) are gitignored and safe to leave in the tree.
+
+   #+begin_src bash
+     $ PORTDIR_OVERLAY=$PWD DISTDIR=$PWD/distdir \
+       ebuild path/to/foo-version.ebuild clean install
+     # staged image: .portage-tmp/portage/category/foo-version/image/
+   #+end_src
+
+   Or a full emerge dry-run against the overlay:
+
+   #+begin_src bash
+     $ PORTDIR_OVERLAY=$PWD emerge -pv =category/foo-version::riru
    #+end_src
 
 ** Creating requests for writing ebuilds
