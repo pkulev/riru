@@ -52,7 +52,6 @@ This section is auto-generated. Run =bb readme:packages= to refresh it.
 | Name             | Version(s) | Description                                                            |
 |------------------+------------+------------------------------------------------------------------------|
 | bambu-studio-bin | 2.7.1.62   | Bambu Lab slicer for 3D printers                                       |
-| grafx2           | 2.9        | A pixelart-oriented painting program                                   |
 | krita-bin        | 6.0.2      | Free digital painting application. Digital Painting, Creative Freedom! |
 
 ** media-video
