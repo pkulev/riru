@@ -12,4 +12,8 @@
 
   readme:packages:check
   {:doc "Exit with an error when README.org is out of date"
-   :task packages/check-readme!}}}
+   :task packages/check-readme!}
+
+  ci:check
+  {:doc "Run local CI checks (README index + pkgcheck)"
+   :shell "bb readme:packages:check && pkgcheck ci --net"}}}

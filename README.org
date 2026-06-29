@@ -106,8 +106,11 @@ This section is auto-generated. Run =bb readme:packages= to refresh it.
    - =bb readme:packages:check= — package table in this README matches ebuilds
    - =pkgcheck= — ebuild QA (with =--net= distfile fetch checks)
 
-   Before committing ebuild changes, run =bb readme:packages= to refresh the
-   package table, then =bb readme:packages:check= to verify it is up to date.
+   Run the same checks locally before pushing:
+
+   #+begin_src bash
+     $ bb ci:check
+   #+end_src
 
 ** Local ebuild testing
    You can test ebuilds against this overlay from the repo root. Portage scratch
