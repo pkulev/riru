@@ -5,6 +5,14 @@ on:
     branches: [master]
   pull_request:
     branches: [master]
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
 
 jobs:
   readme:
@@ -12,17 +20,23 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - name: Setup Babashka
         uses: DeLaGuardo/setup-clojure@13.4
         with:
           bb: latest
-      - run: bb readme:packages:check
+
+      - name: Check package index
+        run: bb readme:packages:check
 
   pkgcheck:
     name: pkgcheck
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
       - uses: pkgcore/pkgcheck-action@v1
         with:
           args: >-
