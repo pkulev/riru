@@ -21,6 +21,7 @@ on:
 permissions:
   contents: write
   pull-requests: write
+  issues: read
 
 jobs:
   bump:
@@ -29,7 +30,13 @@ jobs:
       github.event_name == 'workflow_dispatch' ||
       (
         github.event_name == 'issues' &&
-        contains(github.event.issue.labels.*.name, 'version-bump')
+        (
+          contains(github.event.issue.labels.*.name, 'version-bump') ||
+          (
+            github.event.action == 'labeled' &&
+            github.event.label.name == 'version-bump'
+          )
+        )
       )
     runs-on: ubuntu-latest
     steps:
@@ -47,10 +54,12 @@ jobs:
         run: |
           set -euo pipefail
           if [ "$EVENT_NAME" = workflow_dispatch ]; then
+            branch_slug="${INPUT_ATOM//\//_}"
             echo "atom=$INPUT_ATOM" >> "$GITHUB_OUTPUT"
             echo "version=$INPUT_VERSION" >> "$GITHUB_OUTPUT"
             echo "base=$INPUT_BASE" >> "$GITHUB_OUTPUT"
             echo "issue=" >> "$GITHUB_OUTPUT"
+            echo "branch_slug=$branch_slug" >> "$GITHUB_OUTPUT"
           else
             python3 - <<'PY' >> "$GITHUB_OUTPUT"
           import os, re, sys
@@ -113,9 +122,9 @@ jobs:
       - name: Create pull request
         uses: peter-evans/create-pull-request@v7
         with:
-          branch: bump/${{ steps.params.outputs.atom }}-${{ steps.params.outputs.version }}
-          commit-message: ${{ steps.params.outputs.atom }}: bump version to ${{ steps.params.outputs.version }}
-          title: ${{ steps.params.outputs.atom }}: bump version to ${{ steps.params.outputs.version }}
+          branch: bump/${{ steps.params.outputs.branch_slug }}-${{ steps.params.outputs.version }}
+          commit-message: "${{ steps.params.outputs.atom }}: bump version to ${{ steps.params.outputs.version }}"
+          title: "${{ steps.params.outputs.atom }}: bump version to ${{ steps.params.outputs.version }}"
           body: |
             Automated version bump.
 
