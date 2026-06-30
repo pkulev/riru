@@ -74,10 +74,12 @@ jobs:
               print("Failed to parse issue body for package atom and new version", file=sys.stderr)
               sys.exit(1)
           issue = os.environ.get("ISSUE_NUMBER", "")
+          branch_slug = atom.replace("/", "_")
           print(f"atom={atom}")
           print(f"version={version}")
           print(f"base={base}")
           print(f"issue={issue}")
+          print(f"branch_slug={branch_slug}")
           PY
           fi
 
@@ -85,6 +87,9 @@ jobs:
         uses: DeLaGuardo/setup-clojure@13.4
         with:
           bb: latest
+
+      - name: Install pkgdev
+        run: pip install pkgdev
 
       - name: Copy ebuild
         env:
@@ -100,6 +105,8 @@ jobs:
           bb bump:version "${args[@]}"
 
       - name: Update Manifest
+        id: manifest
+        continue-on-error: true
         env:
           ATOM: ${{ steps.params.outputs.atom }}
           VERSION: ${{ steps.params.outputs.version }}
@@ -108,13 +115,8 @@ jobs:
           category="${ATOM%%/*}"
           package="${ATOM#*/}"
           mkdir -p distdir
-          docker run --rm \
-            -v "$GITHUB_WORKSPACE:/github/workspace" \
-            -w /github/workspace \
-            -e PORTDIR_OVERLAY=/github/workspace \
-            -e DISTDIR=/github/workspace/distdir \
-            ghcr.io/pkgcore/pkgcheck:latest \
-            bash -lc "pmaint sync gentoo && pmaint regen --dir ~/.cache/pkgcheck/repos . && git config --global --add safe.directory /github/workspace && ebuild ${category}/${package}/${package}-${VERSION}.ebuild manifest"
+          PORTDIR_OVERLAY="$GITHUB_WORKSPACE" DISTDIR="$GITHUB_WORKSPACE/distdir" \
+            pkgdev manifest "${category}/${package}/${package}-${VERSION}.ebuild"
 
       - name: Refresh README package index
         run: bb readme:packages
@@ -129,8 +131,9 @@ jobs:
             Automated version bump.
 
             - Copied to `${{ steps.params.outputs.version }}` (base: `${{ steps.params.outputs.base || 'latest' }}`)
-            - Regenerated Manifest and README package index
+            - Regenerated README package index
             - Previous ebuild versions were left in place
+            ${{ steps.manifest.outcome == 'failure' && '- **Manifest update failed** — distfiles may not exist yet. Update SRC_URI, upload crate tarballs if needed, then run `pkgdev manifest` locally.' || '- Regenerated Manifest' }}
 
             Please review SRC_URI, keywords, and dependencies before merging.
           labels: version-bump

@@ -74,18 +74,18 @@
           (seq base) (assoc :base base))))))
 
 (defn run-manifest!
-  "Run `ebuild … manifest` for `ebuild`, optionally using `distdir`."
+  "Run `pkgdev manifest` for `ebuild`, optionally using `distdir`."
   [ebuild distdir]
   (let [ebuild (str ebuild)
         root (str (overlay/find-repo-root))
-        {:keys [exit out err]} (process/sh "ebuild" ebuild "manifest"
-                                            {:dir root
-                                             :env (cond-> {"PORTDIR_OVERLAY" root}
-                                                    distdir (assoc "DISTDIR" distdir))})]
+        env (cond-> {"PORTDIR_OVERLAY" root}
+               distdir (assoc "DISTDIR" distdir))
+        {:keys [exit out err]} (process/sh "pkgdev" "manifest" ebuild
+                                            {:dir root :env env})]
     (when (seq out) (print out))
     (when (seq err) (binding [*out* *err*] (print err)))
     (when (pos? exit)
-      (println "ebuild manifest failed for" ebuild)
+      (println "pkgdev manifest failed for" ebuild)
       (System/exit exit))))
 
 (defn bump!
