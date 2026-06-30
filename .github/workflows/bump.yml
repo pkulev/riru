@@ -1,0 +1,127 @@
+name: Version bump
+
+on:
+  workflow_dispatch:
+    inputs:
+      atom:
+        description: Package atom (category/package)
+        required: true
+        type: string
+      version:
+        description: New version
+        required: true
+        type: string
+      base:
+        description: Base version to copy (optional; defaults to latest)
+        required: false
+        type: string
+  issues:
+    types: [opened, labeled]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  bump:
+    name: Bump ebuild version
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (
+        github.event_name == 'issues' &&
+        contains(github.event.issue.labels.*.name, 'version-bump')
+      )
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Resolve bump parameters
+        id: params
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          INPUT_ATOM: ${{ github.event.inputs.atom }}
+          INPUT_VERSION: ${{ github.event.inputs.version }}
+          INPUT_BASE: ${{ github.event.inputs.base }}
+          ISSUE_BODY: ${{ github.event.issue.body }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+        run: |
+          set -euo pipefail
+          if [ "$EVENT_NAME" = workflow_dispatch ]; then
+            echo "atom=$INPUT_ATOM" >> "$GITHUB_OUTPUT"
+            echo "version=$INPUT_VERSION" >> "$GITHUB_OUTPUT"
+            echo "base=$INPUT_BASE" >> "$GITHUB_OUTPUT"
+            echo "issue=" >> "$GITHUB_OUTPUT"
+          else
+            python3 - <<'PY' >> "$GITHUB_OUTPUT"
+          import os, re, sys
+          body = os.environ.get("ISSUE_BODY", "")
+          def field(title):
+              m = re.search(rf"^### {re.escape(title)}\s*\r?\n\s*(\S+)", body, re.M)
+              return m.group(1).strip() if m else ""
+          atom = field("Package atom")
+          version = field("New version")
+          base = field("Base version (optional)") or field("Base version")
+          if not atom or not version:
+              print("Failed to parse issue body for package atom and new version", file=sys.stderr)
+              sys.exit(1)
+          issue = os.environ.get("ISSUE_NUMBER", "")
+          print(f"atom={atom}")
+          print(f"version={version}")
+          print(f"base={base}")
+          print(f"issue={issue}")
+          PY
+          fi
+
+      - name: Setup Babashka
+        uses: DeLaGuardo/setup-clojure@13.4
+        with:
+          bb: latest
+
+      - name: Copy ebuild
+        env:
+          ATOM: ${{ steps.params.outputs.atom }}
+          VERSION: ${{ steps.params.outputs.version }}
+          BASE: ${{ steps.params.outputs.base }}
+        run: |
+          set -euo pipefail
+          args=(--atom "$ATOM" --version "$VERSION" --skip-manifest --skip-readme)
+          if [ -n "${BASE:-}" ]; then
+            args+=(--base "$BASE")
+          fi
+          bb bump:version "${args[@]}"
+
+      - name: Update Manifest
+        env:
+          ATOM: ${{ steps.params.outputs.atom }}
+          VERSION: ${{ steps.params.outputs.version }}
+        run: |
+          set -euo pipefail
+          category="${ATOM%%/*}"
+          package="${ATOM#*/}"
+          mkdir -p distdir
+          docker run --rm \
+            -v "$GITHUB_WORKSPACE:/github/workspace" \
+            -w /github/workspace \
+            -e PORTDIR_OVERLAY=/github/workspace \
+            -e DISTDIR=/github/workspace/distdir \
+            ghcr.io/pkgcore/pkgcheck:latest \
+            bash -lc "pmaint sync gentoo && pmaint regen --dir ~/.cache/pkgcheck/repos . && git config --global --add safe.directory /github/workspace && ebuild ${category}/${package}/${package}-${VERSION}.ebuild manifest"
+
+      - name: Refresh README package index
+        run: bb readme:packages
+
+      - name: Create pull request
+        uses: peter-evans/create-pull-request@v7
+        with:
+          branch: bump/${{ steps.params.outputs.atom }}-${{ steps.params.outputs.version }}
+          commit-message: ${{ steps.params.outputs.atom }}: bump version to ${{ steps.params.outputs.version }}
+          title: ${{ steps.params.outputs.atom }}: bump version to ${{ steps.params.outputs.version }}
+          body: |
+            Automated version bump.
+
+            - Copied to `${{ steps.params.outputs.version }}` (base: `${{ steps.params.outputs.base || 'latest' }}`)
+            - Regenerated Manifest and README package index
+            - Previous ebuild versions were left in place
+
+            Please review SRC_URI, keywords, and dependencies before merging.
+          labels: version-bump
