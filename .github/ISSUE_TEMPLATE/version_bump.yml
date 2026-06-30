@@ -1,0 +1,43 @@
+name: Version bump
+description: Open a PR that copies an existing ebuild to a new version and refreshes its Manifest.
+title: "bump: "
+labels:
+  - version-bump
+body:
+  - type: markdown
+    attributes:
+      value: |
+        CI will open a pull request with the new ebuild. Old versions are kept.
+        Merging remains manual.
+
+  - type: input
+    id: atom
+    attributes:
+      label: Package atom
+      description: category/package (for example dev-lang/hy)
+      placeholder: dev-lang/hy
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: New version
+      description: Gentoo version string (for example 1.4.0 or 1.0.0_rc1)
+      placeholder: 1.4.0
+    validations:
+      required: true
+
+  - type: input
+    id: base
+    attributes:
+      label: Base version (optional)
+      description: Copy from this version; leave empty to use the latest ebuild in the overlay
+
+  - type: checkboxes
+    id: confirm
+    attributes:
+      label: Confirm
+      options:
+        - label: I understand this only copies the ebuild and updates Manifest/README; SRC_URI and build logic may still need manual edits.
+          required: true

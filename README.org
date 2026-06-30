@@ -112,6 +112,20 @@ This section is auto-generated. Run =bb readme:packages= to refresh it.
      $ bb ci:check
    #+end_src
 
+   ** Version bumps
+   Open a [[https://github.com/pkulev/riru/issues/new?template=version_bump.yml][version bump issue]]
+   or run the [[https://github.com/pkulev/riru/actions/workflows/bump.yml][Version bump]]
+   workflow manually. CI opens a pull request; old ebuild versions are kept and
+   merging stays manual. Manifests are regenerated with =ebuild … manifest=.
+
+   Locally:
+
+   #+begin_src bash
+     $ bb bump:version --pkg-atom dev-lang/hy --version 1.4.0
+   #+end_src
+
+   After ebuild changes, refresh the package table with =bb readme:packages=.
+
 ** Local ebuild testing
    You can test ebuilds against this overlay from the repo root. Portage scratch
    directories (=.portage*=) are gitignored and safe to leave in the tree.
