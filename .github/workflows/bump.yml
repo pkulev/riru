@@ -136,4 +136,6 @@ jobs:
             ${{ steps.manifest.outcome == 'failure' && '- **Manifest update failed** — distfiles may not exist yet. Update SRC_URI, upload crate tarballs if needed, then run `pkgdev manifest` locally.' || '- Regenerated Manifest' }}
 
             Please review SRC_URI, keywords, and dependencies before merging.
+
+            **Closes:** \#${{ github.event.issue.number }}
           labels: version-bump
