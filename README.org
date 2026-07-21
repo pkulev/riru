@@ -44,9 +44,9 @@ This section is auto-generated. Run =bb readme:packages= to refresh it.
 | glsnake | 1.0.4      | OpenGL Snake game using SDL2 |
 
 ** games-util
-| Name                  | Version(s)  | Description                                                    |
-|-----------------------+-------------+----------------------------------------------------------------|
-| open-steam-controller | 1.0.0, 9999 | Tray application for the Steam Controller (2026) without Steam |
+| Name                  | Version(s)         | Description                                                    |
+|-----------------------+--------------------+----------------------------------------------------------------|
+| open-steam-controller | 1.0.0, 1.2.0, 9999 | Tray application for the Steam Controller (2026) without Steam |
 
 ** media-gfx
 | Name             | Version(s) | Description                                                            |
