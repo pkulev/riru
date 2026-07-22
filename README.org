@@ -129,16 +129,17 @@ This section is auto-generated. Run =bb readme:packages= to refresh it.
 *** Rust packages (crate tarball)
     Cargo ebuilds use =CRATES=""= and fetch =${P}-crates.tar.xz= from the fixed
     [[https://github.com/pkulev/riru/releases/tag/1.0.0][riru 1.0.0]] release.
-    After the bump PR copies the ebuild, from overlay root:
+    After the version-bump PR opens (Manifest often fails until crates exist):
 
-    #+begin_src bash
-      $ bb bump:crates --pkg-atom games-util/open-steam-controller --version 1.2.0
-    #+end_src
+    1. Upload crates locally (skip Manifest; CI will refresh it):
+       #+begin_src bash
+         $ bb bump:crates --pkg-atom games-util/open-steam-controller --version 1.2.0 --skip-manifest
+       #+end_src
+    2. Add the =deps-uploaded= label on the PR. CI runs
+       [[https://github.com/pkulev/riru/actions/workflows/bump-manifest.yml][Refresh bump Manifest]]
+       and pushes the updated Manifest.
 
-    That regenerates md5-cache metadata, downloads upstream sources, runs
-    =pycargoebuild -c=, uploads the crate tarball to release =1.0.0=, then
-    refreshes Manifest and README. Needs =pycargoebuild=, =pkgdev=, and =gh=.
-    Useful flags: =--dry-run=, =--skip-upload=, =--skip-manifest=.
+    Needs =pycargoebuild=, =pkgdev=, and =gh=. Other flags: =--dry-run=, =--skip-upload=.
 
 ** Local ebuild testing
    You can test ebuilds against this overlay from the repo root. Portage scratch
