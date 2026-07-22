@@ -115,8 +115,9 @@ jobs:
           category="${ATOM%%/*}"
           package="${ATOM#*/}"
           mkdir -p distdir
-          PORTDIR_OVERLAY="$GITHUB_WORKSPACE" DISTDIR="$GITHUB_WORKSPACE/distdir" \
-            pkgdev manifest "${category}/${package}/${package}-${VERSION}.ebuild"
+          PORTDIR_OVERLAY="$GITHUB_WORKSPACE" \
+            pkgdev manifest -d "$GITHUB_WORKSPACE/distdir" \
+            "${category}/${package}/${package}-${VERSION}.ebuild"
 
       - name: Refresh README package index
         run: bb readme:packages
@@ -136,7 +137,7 @@ jobs:
             - Copied to `${{ steps.params.outputs.version }}` (base: `${{ steps.params.outputs.base || 'latest' }}`)
             - Regenerated README package index
             - Previous ebuild versions were left in place
-            ${{ steps.manifest.outcome == 'failure' && '- **Manifest update failed** — distfiles may not exist yet. Update SRC_URI, upload crate tarballs if needed, then run `pkgdev manifest` locally.' || '- Regenerated Manifest' }}
+            ${{ steps.manifest.outcome == 'failure' && format('- **Manifest update failed** — for Rust packages: `bb bump:crates --pkg-atom {0} --version {1} --skip-manifest`, then add the `deps-uploaded` label so CI refreshes Manifest.', steps.params.outputs.atom, steps.params.outputs.version) || '- Regenerated Manifest' }}
 
             Please review SRC_URI, keywords, and dependencies before merging.
 

@@ -1,0 +1,109 @@
+name: Refresh bump Manifest
+
+on:
+  pull_request:
+    types: [labeled]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  manifest:
+    name: Refresh Manifest
+    if: >-
+      github.event.pull_request.state == 'open' &&
+      github.event.label.name == 'deps-uploaded' &&
+      contains(github.event.pull_request.labels.*.name, 'version-bump') &&
+      github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout PR branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Resolve package from PR title
+        id: params
+        env:
+          PR_TITLE: ${{ github.event.pull_request.title }}
+        run: |
+          set -euo pipefail
+          # Title format from bump.yml: "category/package: bump version to VERSION"
+          if [[ ! "$PR_TITLE" =~ ^([a-z0-9-]+/[a-zA-Z0-9_+-]+):\ bump\ version\ to\ (.+)$ ]]; then
+            echo "Could not parse atom/version from PR title: $PR_TITLE" >&2
+            exit 1
+          fi
+          atom="${BASH_REMATCH[1]}"
+          version="${BASH_REMATCH[2]}"
+          category="${atom%%/*}"
+          package="${atom#*/}"
+          ebuild="${category}/${package}/${package}-${version}.ebuild"
+          if [[ ! -f "$ebuild" ]]; then
+            echo "Ebuild not found: $ebuild" >&2
+            exit 1
+          fi
+          echo "atom=$atom" >> "$GITHUB_OUTPUT"
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "ebuild=$ebuild" >> "$GITHUB_OUTPUT"
+          echo "manifest=${category}/${package}/Manifest" >> "$GITHUB_OUTPUT"
+
+      - name: Install pkgdev
+        run: pip install pkgdev
+
+      - name: Update Manifest
+        id: manifest
+        env:
+          EBUILD: ${{ steps.params.outputs.ebuild }}
+        run: |
+          set -euo pipefail
+          mkdir -p distdir
+          PORTDIR_OVERLAY="$GITHUB_WORKSPACE" \
+            pkgdev manifest -d "$GITHUB_WORKSPACE/distdir" "$EBUILD"
+
+      - name: Commit and push Manifest
+        if: success()
+        env:
+          ATOM: ${{ steps.params.outputs.atom }}
+          VERSION: ${{ steps.params.outputs.version }}
+          MANIFEST: ${{ steps.params.outputs.manifest }}
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -- "$MANIFEST"
+          # LICENSE+ may appear alongside Manifest after local crates work
+          if [[ -f LICENSE+ ]]; then
+            git add -- LICENSE+
+          fi
+          if git diff --cached --quiet; then
+            echo "Nothing to commit"
+          else
+            git commit -m "${ATOM}: refresh Manifest for ${VERSION}"
+            git push
+          fi
+
+      - name: Remove deps-uploaded label
+        if: success()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh pr edit "${{ github.event.pull_request.number }}" --remove-label deps-uploaded
+
+      - name: Comment on failure
+        if: failure()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ATOM: ${{ steps.params.outputs.atom }}
+          VERSION: ${{ steps.params.outputs.version }}
+        run: |
+          set -euo pipefail
+          pkg="${ATOM#*/}"
+          body="Failed to refresh Manifest for \`${ATOM:-?}\` \`${VERSION:-?}\`.
+
+          Check that distfiles (e.g. \`${pkg:-package}-${VERSION:-version}-crates.tar.xz\`) are uploaded to the [riru 1.0.0 release](https://github.com/pkulev/riru/releases/tag/1.0.0), then re-add the \`deps-uploaded\` label.
+
+          See the [workflow run](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) for logs."
+          gh pr comment "${{ github.event.pull_request.number }}" --body "$body"
