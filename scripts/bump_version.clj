@@ -78,10 +78,13 @@
   [ebuild distdir]
   (let [ebuild (str ebuild)
         root (str (overlay/find-repo-root))
-        env (cond-> {"PORTDIR_OVERLAY" root}
-               distdir (assoc "DISTDIR" distdir))
-        {:keys [exit out err]} (process/sh "pkgdev" "manifest" ebuild
-                                            {:dir root :env env})]
+        args (cond-> ["pkgdev" "manifest"]
+               distdir (into ["-d" (str distdir)])
+               true (conj ebuild))
+        {:keys [exit out err]} (apply process/sh
+                                      {:dir root
+                                       :extra-env {"PORTDIR_OVERLAY" root}}
+                                      args)]
     (when (seq out) (print out))
     (when (seq err) (binding [*out* *err*] (print err)))
     (when (pos? exit)
