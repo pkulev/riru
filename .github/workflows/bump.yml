@@ -125,7 +125,10 @@ jobs:
         uses: peter-evans/create-pull-request@v7
         with:
           branch: bump/${{ steps.params.outputs.branch_slug }}-${{ steps.params.outputs.version }}
-          commit-message: "${{ steps.params.outputs.atom }}: bump version to ${{ steps.params.outputs.version }}"
+          commit-message: |
+            ${{ steps.params.outputs.atom }}: bump version to ${{ steps.params.outputs.version }}
+
+            **Closes:** \#{{ github.event.issue.number }}
           title: "${{ steps.params.outputs.atom }}: bump version to ${{ steps.params.outputs.version }}"
           body: |
             Automated version bump.
