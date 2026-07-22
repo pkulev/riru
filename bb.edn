@@ -20,4 +20,8 @@
 
   bump:version
   {:doc "Copy an ebuild to a new version and refresh Manifest/README"
-   :task (apply shell "bb" "-m" "bump-version" (rest *command-line-args*))}}}
+   :task (apply shell "bb" "-m" "bump-version" *command-line-args*)}
+
+  bump:crates
+  {:doc "Build ${P}-crates.tar.xz, upload to riru 1.0.0 release, refresh Manifest/README"
+   :task (apply shell "bb" "-m" "bump-crates" *command-line-args*)}}}
