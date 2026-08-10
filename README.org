@@ -27,6 +27,11 @@ Home overlay for development, patches and live ebuilds.
 This section is auto-generated. Run =bb readme:packages= to refresh it.
 
 # BEGIN GENERATED PACKAGES
+** app-editors
+| Name   | Version(s) | Description                              |
+|--------+------------+------------------------------------------|
+| cursor | 3.15.6     | Cursor App - AI-first coding environment |
+
 ** dev-lang
 | Name     | Version(s) | Description                                                                   |
 |----------+------------+-------------------------------------------------------------------------------|
