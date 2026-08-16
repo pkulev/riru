@@ -74,21 +74,29 @@
           (seq base) (assoc :base base))))))
 
 (defn run-manifest!
-  "Run `pkgdev manifest` for `ebuild`, optionally using `distdir`."
-  [ebuild distdir]
+  "Run `pkgdev manifest` for `ebuild`, optionally using `distdir`.
+
+  When `force?` is true, use `ebuild --force … digest` so changed distfiles
+  replace existing Manifest DIST digests."
+  [ebuild distdir & {:keys [force?]}]
   (let [ebuild (str ebuild)
         root (str (overlay/find-repo-root))
-        args (cond-> ["pkgdev" "manifest"]
-               distdir (into ["-d" (str distdir)])
-               true (conj ebuild))
-        {:keys [exit out err]} (apply process/sh
-                                      {:dir root
-                                       :extra-env {"PORTDIR_OVERLAY" root}}
-                                      args)]
+        {:keys [exit out err]}
+        (if force?
+          (process/sh {:dir root
+                       :extra-env (cond-> {"PORTDIR_OVERLAY" root}
+                                    distdir (assoc "DISTDIR" (str distdir)))}
+                      "ebuild" "--force" ebuild "digest")
+          (apply process/sh
+                 {:dir root
+                  :extra-env {"PORTDIR_OVERLAY" root}}
+                 (cond-> ["pkgdev" "manifest"]
+                   distdir (into ["-d" (str distdir)])
+                   true (conj ebuild))))]
     (when (seq out) (print out))
     (when (seq err) (binding [*out* *err*] (print err)))
     (when (pos? exit)
-      (println "pkgdev manifest failed for" ebuild)
+      (println "manifest failed for" ebuild)
       (System/exit exit))))
 
 (defn bump!
