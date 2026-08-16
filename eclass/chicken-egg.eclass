@@ -7,12 +7,15 @@
 # @SUPPORTED_EAPIS: 8
 # @BLURB: Build and install CHICKEN Scheme eggs into the image repository
 # @DESCRIPTION:
-# Fetches a versioned egg (via henrietta by default, or Call-CC SVN tags)
-# and installs compiled artifacts under /usr/$(get_libdir)/chicken/<abi>.
+# Fetches a versioned egg tarball from the riru GitHub release mirror
+# (Portage fetch phase) and installs compiled artifacts under
+# /usr/$(get_libdir)/chicken/<abi>.
 #
-# Egg "release" tags can change contents under the same version; neither
-# henrietta nor SVN fetch adds DIST digests, so Manifest checks stay stable
-# when upstream rewrites a tag.
+# Refresh / re-upload tarballs with: bb bump:eggs
+#
+# Call-CC Henrietta / SVN are often unreachable from restricted networks.
+# Prefer the mirrored SRC_URI. Optional CHICKEN_EGG_FETCH=henrietta|svn|files
+# remains for local hacking.
 #
 # @EXAMPLE:
 # @CODE
@@ -54,13 +57,19 @@ fi
 # Chicken 5.3/5.4 use ABI 11.
 : "${CHICKEN_EGG_ABI:=11}"
 
+# @ECLASS_VARIABLE: CHICKEN_EGG_MIRROR
+# @DESCRIPTION:
+# Base URL for mirrored egg source tarballs (riru release assets).
+: "${CHICKEN_EGG_MIRROR:=https://github.com/pkulev/riru/releases/download/1.0.0}"
+
 # @ECLASS_VARIABLE: CHICKEN_EGG_FETCH
 # @DESCRIPTION:
-# How to obtain egg sources: "henrietta" (default; chicken-install HTTP
-# retrieve) or "svn" (Call-CC eggs repo tags). Henrietta is preferred because
-# the SVN endpoint is often slow/timeout-prone; neither approach adds DIST
-# digests, so mutable egg tags will not break Manifest checks.
-: "${CHICKEN_EGG_FETCH:=henrietta}"
+# How to obtain egg sources:
+# - mirror (default): SRC_URI from CHICKEN_EGG_MIRROR (Portage fetch)
+# - files: unpack ${FILESDIR}/${CHICKEN_EGG}-${PV}.tar.xz
+# - henrietta: chicken-install -r (needs network to egg mirrors)
+# - svn: Call-CC eggs repo tags (needs network + subversion)
+: "${CHICKEN_EGG_FETCH:=mirror}"
 
 # @ECLASS_VARIABLE: CHICKEN_EGG_SVN_URI
 # @DESCRIPTION:
@@ -77,10 +86,16 @@ fi
 # SVN password for Call-CC eggs (empty string).
 : "${ESVN_PASSWORD:=}"
 
+if [[ ${CHICKEN_EGG_FETCH} == mirror ]]; then
+	SRC_URI="${CHICKEN_EGG_MIRROR}/${CHICKEN_EGG}-${PV}.tar.xz"
+fi
+
 RDEPEND+=" >=dev-scheme/chicken-5.3.0"
 DEPEND+=" ${RDEPEND}"
 BDEPEND+=" >=dev-scheme/chicken-5.3.0"
 [[ ${CHICKEN_EGG_FETCH} == svn ]] && BDEPEND+=" dev-vcs/subversion"
+[[ ${CHICKEN_EGG_FETCH} == files || ${CHICKEN_EGG_FETCH} == mirror ]] \
+	&& BDEPEND+=" app-arch/xz-utils"
 
 S="${WORKDIR}/${P}"
 
@@ -93,11 +108,25 @@ chicken-egg_repository() {
 
 # @FUNCTION: chicken-egg_src_unpack
 # @DESCRIPTION:
-# Fetch egg sources via svn export or chicken-install -retrieve.
+# Unpack mirrored / vendored egg sources, or fetch via henrietta / svn.
 chicken-egg_src_unpack() {
 	mkdir -p "${S}" || die
 
 	case ${CHICKEN_EGG_FETCH} in
+		mirror)
+			local archive="${DISTDIR}/${CHICKEN_EGG}-${PV}.tar.xz"
+			[[ -f ${archive} ]] \
+				|| die "missing distfile ${archive} (run: bb bump:eggs)"
+			einfo "unpack ${archive}"
+			tar -C "${S}" -xJf "${archive}" || die "failed to unpack ${archive}"
+			;;
+		files)
+			local archive="${FILESDIR}/${CHICKEN_EGG}-${PV}.tar.xz"
+			[[ -f ${archive} ]] \
+				|| die "missing vendored egg archive ${archive}"
+			einfo "unpack ${archive}"
+			tar -C "${S}" -xJf "${archive}" || die "failed to unpack ${archive}"
+			;;
 		svn)
 			einfo "svn export ${CHICKEN_EGG_SVN_URI}"
 			# Empty password with anonymous is required by Call-CC.
@@ -113,7 +142,7 @@ chicken-egg_src_unpack() {
 			export CHICKEN_EGG_CACHE="${cache}"
 			einfo "chicken-install -r ${CHICKEN_EGG}:${PV}"
 			chicken-install -r "${CHICKEN_EGG}:${PV}" \
-				|| die "henrietta retrieve failed for ${CHICKEN_EGG}:${PV}"
+				|| die "henrietta retrieve failed for ${CHICKEN_EGG}:${PV} (network to Call-CC/kitten mirrors required; use mirrored SRC_URI via bb bump:eggs)"
 			[[ -d ${cache}/${CHICKEN_EGG} ]] \
 				|| die "egg cache missing ${cache}/${CHICKEN_EGG}"
 			cp -a "${cache}/${CHICKEN_EGG}/." "${S}/" || die

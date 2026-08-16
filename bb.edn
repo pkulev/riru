@@ -24,4 +24,8 @@
 
   bump:crates
   {:doc "Build ${P}-crates.tar.xz, upload to riru 1.0.0 release, refresh Manifest/README"
-   :task (apply shell "bb" "-m" "bump-crates" *command-line-args*)}}}
+   :task (apply shell "bb" "-m" "bump-crates" *command-line-args*)}
+
+  bump:eggs
+  {:doc "Build chicken egg ${EGG}-${PV}.tar.xz, upload to riru 1.0.0 release, refresh Manifest/README"
+   :task (apply shell "bb" "-m" "bump-eggs" *command-line-args*)}}}

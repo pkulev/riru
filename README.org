@@ -167,6 +167,20 @@ This section is auto-generated. Run =bb readme:packages= to refresh it.
 
     Needs =pycargoebuild=, =pkgdev=, and =gh=. Other flags: =--dry-run=, =--skip-upload=.
 
+*** Chicken eggs (source tarball)
+    =dev-chicken/*= eggs fetch =${CHICKEN_EGG}-${PV}.tar.xz= from the same
+    [[https://github.com/pkulev/riru/releases/tag/1.0.0][riru 1.0.0]] release
+    (Portage fetch phase; see =chicken-egg.eclass=). Refresh mirrors with:
+
+    #+begin_src bash
+      $ bb bump:eggs
+      $ bb bump:eggs --pkg-atom dev-chicken/srfi1 --version 0.5.1
+    #+end_src
+
+    Source order: overlay =files/= (optional) -> =~/.cache/chicken-install= ->
+    =--from-henrietta= (=chicken-install -r=). Needs =pkgdev= and =gh= for
+    upload/Manifest. Flags: =--dry-run=, =--skip-upload=, =--skip-manifest=.
+
 ** Local ebuild testing
    You can test ebuilds against this overlay from the repo root. Portage scratch
    directories (=.portage*=) are gitignored and safe to leave in the tree.
