@@ -32,11 +32,32 @@ This section is auto-generated. Run =bb readme:packages= to refresh it.
 |--------+------------+------------------------------------------|
 | cursor | 3.15.6     | Cursor App - AI-first coding environment |
 
+** dev-chicken
+| Name          | Version(s) | Description                                          |
+|---------------+------------+------------------------------------------------------|
+| brev-separate | 1.98       | Hodge podge of macros and combinators                |
+| fmt           | 0.8.11.3   | Combinator Formatting                                |
+| getopt-long   | 1.21       | Command line option parsing                          |
+| iset          | 2.2        | Integer sets                                         |
+| matchable     | 1.2        | Hygienic MATCH replacement                           |
+| miscmacros    | 1.0        | Various helper macros                                |
+| regex         | 2.0        | Compatibility library for old regular expression API |
+| srfi1         | 0.5.1      | SRFI-1 list library                                  |
+| srfi13        | 0.3.4      | SRFI-13 string library                               |
+| srfi14        | 0.2.1      | SRFI-14 character-sets library                       |
+| srfi42        | 1.76       | SRFI-42 (Eager comprehensions)                       |
+| srfi69        | 0.4.3      | SRFI-69 hash-table library                           |
+| srfi71        | 0.2        | SRFI-71: Extended LET-syntax for multiple values     |
+| test          | 1.2        | Yet another testing utility                          |
+| tree          | 1.50       | A tree utility library                               |
+| utf8          | 3.6.3      | Unicode support                                      |
+
 ** dev-lang
 | Name     | Version(s) | Description                                                                   |
 |----------+------------+-------------------------------------------------------------------------------|
 | haxe-bin | 4.3.7      | An open source toolkit based on a modern, strictly typed programming language |
 | hy       | 1.3.0      | A LISP dialect running in python                                              |
+| sex      | 9999       | Sex: for passionate software developers                                       |
 
 ** dev-lisp
 | Name     | Version(s) | Description                                  |
