@@ -173,13 +173,14 @@ This section is auto-generated. Run =bb readme:packages= to refresh it.
     (Portage fetch phase; see =chicken-egg.eclass=). Refresh mirrors with:
 
     #+begin_src bash
-      $ bb bump:eggs
-      $ bb bump:eggs --pkg-atom dev-chicken/srfi1 --version 0.5.1
+      $ bb bump:eggs --from-henrietta
+      $ bb bump:eggs --pkg-atom dev-chicken/srfi1 --version 0.5.1 --from-henrietta
     #+end_src
 
-    Source order: overlay =files/= (optional) -> =~/.cache/chicken-install= ->
-    =--from-henrietta= (=chicken-install -r=). Needs =pkgdev= and =gh= for
-    upload/Manifest. Flags: =--dry-run=, =--skip-upload=, =--skip-manifest=.
+    Prefer =--from-henrietta= for release uploads (clean sources, including
+    predefined =.types= files). Otherwise: overlay =files/= -> chicken cache
+    (build leftovers are scrubbed). Needs =pkgdev= and =gh=. Flags:
+    =--dry-run=, =--skip-upload=, =--skip-manifest=.
 
 ** Local ebuild testing
    You can test ebuilds against this overlay from the repo root. Portage scratch
