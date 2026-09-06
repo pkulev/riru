@@ -30,7 +30,7 @@ This section is auto-generated. Run =bb readme:packages= to refresh it.
 ** app-editors
 | Name   | Version(s) | Description                              |
 |--------+------------+------------------------------------------|
-| cursor | 3.15.6     | Cursor App - AI-first coding environment |
+| cursor | 3.19.13    | Cursor App - AI-first coding environment |
 
 ** dev-chicken
 | Name          | Version(s) | Description                                          |
