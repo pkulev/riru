@@ -53,11 +53,11 @@ This section is auto-generated. Run =bb readme:packages= to refresh it.
 | utf8          | 3.6.3      | Unicode support                                      |
 
 ** dev-lang
-| Name     | Version(s) | Description                                                                   |
-|----------+------------+-------------------------------------------------------------------------------|
-| haxe-bin | 4.3.7      | An open source toolkit based on a modern, strictly typed programming language |
-| hy       | 1.3.0      | A LISP dialect running in python                                              |
-| sex      | 9999       | Sex: for passionate software developers                                       |
+| Name     | Version(s)   | Description                                                                   |
+|----------+--------------+-------------------------------------------------------------------------------|
+| haxe-bin | 4.3.7        | An open source toolkit based on a modern, strictly typed programming language |
+| hy       | 1.3.0, 1.3.1 | A LISP dialect running in python                                              |
+| sex      | 9999         | Sex: for passionate software developers                                       |
 
 ** dev-lisp
 | Name     | Version(s) | Description                                  |
