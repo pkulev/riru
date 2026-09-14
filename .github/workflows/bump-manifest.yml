@@ -25,30 +25,16 @@ jobs:
           repository: ${{ github.event.pull_request.head.repo.full_name }}
           token: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Setup Babashka
+        uses: DeLaGuardo/setup-clojure@13.4
+        with:
+          bb: latest
+
       - name: Resolve package from PR title
         id: params
         env:
           PR_TITLE: ${{ github.event.pull_request.title }}
-        run: |
-          set -euo pipefail
-          # Title format from bump.yml: "category/package: bump version to VERSION"
-          if [[ ! "$PR_TITLE" =~ ^([a-z0-9-]+/[a-zA-Z0-9_+-]+):\ bump\ version\ to\ (.+)$ ]]; then
-            echo "Could not parse atom/version from PR title: $PR_TITLE" >&2
-            exit 1
-          fi
-          atom="${BASH_REMATCH[1]}"
-          version="${BASH_REMATCH[2]}"
-          category="${atom%%/*}"
-          package="${atom#*/}"
-          ebuild="${category}/${package}/${package}-${version}.ebuild"
-          if [[ ! -f "$ebuild" ]]; then
-            echo "Ebuild not found: $ebuild" >&2
-            exit 1
-          fi
-          echo "atom=$atom" >> "$GITHUB_OUTPUT"
-          echo "version=$version" >> "$GITHUB_OUTPUT"
-          echo "ebuild=$ebuild" >> "$GITHUB_OUTPUT"
-          echo "manifest=${category}/${package}/Manifest" >> "$GITHUB_OUTPUT"
+        run: bb ci:parse-bump-pr-title
 
       - name: Install pkgdev
         run: pip install pkgdev

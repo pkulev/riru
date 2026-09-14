@@ -59,6 +59,21 @@
       (seq base) base
       :else (latest-version category package))))
 
+(defn- issue-field
+  "Return the first token under a `### title…` heading, or nil.
+
+  GitHub issue forms use `_No response_` for empty optional inputs; that is
+  treated as absent."
+  [body title-prefix]
+  (when-let [[_ val] (re-find (re-pattern (str "(?m)^### "
+                                              (java.util.regex.Pattern/quote title-prefix)
+                                              "[^\\n]*\\r?\\n\\s*([^\\n]+)"))
+                              body)]
+    (let [val (str/trim val)]
+      (when-not (or (str/blank? val)
+                    (str/starts-with? val "_No response_"))
+        (first (str/split val #"\s+"))))))
+
 (defn parse-issue-body
   "Extract bump parameters from a GitHub version-bump issue body.
 
@@ -66,9 +81,9 @@
   headings as produced by the issue form template."
   [body]
   (when (seq body)
-    (let [atom (some-> (re-find #"(?m)^### Package atom\s*\r?\n\s*(\S+)" body) second str/trim)
-          version (some-> (re-find #"(?m)^### New version\s*\r?\n\s*(\S+)" body) second str/trim)
-          base (some-> (re-find #"(?m)^### Base version[^\n]*\r?\n\s*(\S+)" body) second str/trim)]
+    (let [atom (issue-field body "Package atom")
+          version (issue-field body "New version")
+          base (issue-field body "Base version")]
       (when (and atom version)
         (cond-> {:atom atom :version version}
           (seq base) (assoc :base base))))))
