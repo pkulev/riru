@@ -18,6 +18,14 @@
   {:doc "Run local CI checks (README index + pkgcheck)"
    :shell "bb readme:packages:check && pkgcheck ci --net"}
 
+  ci:bump-params
+  {:doc "Emit GitHub Actions outputs for bump.yml (issue body or workflow_dispatch)"
+   :task (apply shell "bb" "-m" "ci" "bump-params" *command-line-args*)}
+
+  ci:parse-bump-pr-title
+  {:doc "Emit GitHub Actions outputs from a version-bump PR title"
+   :task (apply shell "bb" "-m" "ci" "parse-bump-pr-title" *command-line-args*)}
+
   bump:version
   {:doc "Copy an ebuild to a new version and refresh Manifest/README"
    :task (apply shell "bb" "-m" "bump-version" *command-line-args*)}

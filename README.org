@@ -64,6 +64,11 @@ This section is auto-generated. Run =bb readme:packages= to refresh it.
 |----------+------------+----------------------------------------------|
 | picolisp | 25.12      | PicoLisp - programming language and database |
 
+** dev-scheme
+| Name    | Version(s) | Description                                        |
+|---------+------------+----------------------------------------------------|
+| chicken | 6.0.0      | Scheme interpreter and native Scheme to C compiler |
+
 ** games-arcade
 | Name    | Version(s) | Description                  |
 |---------+------------+------------------------------|

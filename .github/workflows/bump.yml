@@ -16,7 +16,9 @@ on:
         required: false
         type: string
   issues:
-    types: [opened, labeled]
+    # labeled only: creating an issue with the template label already fires
+    # "labeled"; listening to "opened" as well double-runs the job.
+    types: [labeled]
 
 permissions:
   contents: write
@@ -30,17 +32,16 @@ jobs:
       github.event_name == 'workflow_dispatch' ||
       (
         github.event_name == 'issues' &&
-        (
-          contains(github.event.issue.labels.*.name, 'version-bump') ||
-          (
-            github.event.action == 'labeled' &&
-            github.event.label.name == 'version-bump'
-          )
-        )
+        github.event.label.name == 'version-bump'
       )
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
+      - name: Setup Babashka
+        uses: DeLaGuardo/setup-clojure@13.4
+        with:
+          bb: latest
 
       - name: Resolve bump parameters
         id: params
@@ -51,42 +52,7 @@ jobs:
           INPUT_BASE: ${{ github.event.inputs.base }}
           ISSUE_BODY: ${{ github.event.issue.body }}
           ISSUE_NUMBER: ${{ github.event.issue.number }}
-        run: |
-          set -euo pipefail
-          if [ "$EVENT_NAME" = workflow_dispatch ]; then
-            branch_slug="${INPUT_ATOM//\//_}"
-            echo "atom=$INPUT_ATOM" >> "$GITHUB_OUTPUT"
-            echo "version=$INPUT_VERSION" >> "$GITHUB_OUTPUT"
-            echo "base=$INPUT_BASE" >> "$GITHUB_OUTPUT"
-            echo "issue=" >> "$GITHUB_OUTPUT"
-            echo "branch_slug=$branch_slug" >> "$GITHUB_OUTPUT"
-          else
-            python3 - <<'PY' >> "$GITHUB_OUTPUT"
-          import os, re, sys
-          body = os.environ.get("ISSUE_BODY", "")
-          def field(title):
-              m = re.search(rf"^### {re.escape(title)}\s*\r?\n\s*(\S+)", body, re.M)
-              return m.group(1).strip() if m else ""
-          atom = field("Package atom")
-          version = field("New version")
-          base = field("Base version (optional)") or field("Base version")
-          if not atom or not version:
-              print("Failed to parse issue body for package atom and new version", file=sys.stderr)
-              sys.exit(1)
-          issue = os.environ.get("ISSUE_NUMBER", "")
-          branch_slug = atom.replace("/", "_")
-          print(f"atom={atom}")
-          print(f"version={version}")
-          print(f"base={base}")
-          print(f"issue={issue}")
-          print(f"branch_slug={branch_slug}")
-          PY
-          fi
-
-      - name: Setup Babashka
-        uses: DeLaGuardo/setup-clojure@13.4
-        with:
-          bb: latest
+        run: bb ci:bump-params
 
       - name: Install pkgdev
         run: pip install pkgdev
