@@ -5,9 +5,14 @@ EAPI=8
 
 inherit chicken-egg
 
-DESCRIPTION="Yet another testing utility"
-HOMEPAGE="https://wiki.call-cc.org/eggref/5/test"
+DESCRIPTION="SRFI-14 character-sets library"
+HOMEPAGE="https://wiki.call-cc.org/eggref/6/srfi-14"
 
 LICENSE="BSD"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
+
+RDEPEND="
+	dev-chicken/srfi1
+"
+DEPEND="${RDEPEND}"

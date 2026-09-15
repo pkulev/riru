@@ -5,18 +5,23 @@ EAPI=8
 
 inherit chicken-egg
 
-DESCRIPTION="SRFI-13 string library"
-HOMEPAGE="https://wiki.call-cc.org/eggref/5/srfi-13"
+DESCRIPTION="Command line option parsing"
+HOMEPAGE="https://wiki.call-cc.org/eggref/6/getopt-long"
 
-LICENSE="BSD"
+LICENSE="LGPL-3"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE="test"
 RESTRICT="!test? ( test )"
 
-RDEPEND="dev-chicken/srfi14"
+RDEPEND="
+	dev-chicken/matchable
+	dev-chicken/srfi1
+	dev-chicken/srfi13
+	dev-chicken/srfi14
+"
 DEPEND="${RDEPEND}"
-BDEPEND="test? ( dev-chicken/test )"
+BDEPEND="test? ( ${RDEPEND} )"
 
 src_test() {
 	unset CHICKEN_INSTALL_REPOSITORY CHICKEN_REPOSITORY_PATH || true
