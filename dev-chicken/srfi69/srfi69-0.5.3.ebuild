@@ -6,7 +6,7 @@ EAPI=8
 inherit chicken-egg
 
 DESCRIPTION="SRFI-69 hash-table library"
-HOMEPAGE="https://wiki.call-cc.org/eggref/5/srfi-69"
+HOMEPAGE="https://wiki.call-cc.org/eggref/6/srfi-69"
 
 LICENSE="BSD"
 SLOT="0"

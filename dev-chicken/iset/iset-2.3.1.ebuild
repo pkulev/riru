@@ -5,8 +5,8 @@ EAPI=8
 
 inherit chicken-egg
 
-DESCRIPTION="SRFI-71: Extended LET-syntax for multiple values"
-HOMEPAGE="https://wiki.call-cc.org/eggref/5/srfi-71"
+DESCRIPTION="Integer sets"
+HOMEPAGE="https://wiki.call-cc.org/eggref/6/iset"
 
 LICENSE="BSD"
 SLOT="0"

@@ -54,8 +54,8 @@ fi
 # @ECLASS_VARIABLE: CHICKEN_EGG_ABI
 # @DESCRIPTION:
 # CHICKEN binary compatibility version (directory under lib/chicken/).
-# Chicken 5.3/5.4 use ABI 11.
-: "${CHICKEN_EGG_ABI:=11}"
+# Chicken 6.x uses ABI 12 (Chicken 5.3/5.4 used 11).
+: "${CHICKEN_EGG_ABI:=12}"
 
 # @ECLASS_VARIABLE: CHICKEN_EGG_MIRROR
 # @DESCRIPTION:
@@ -74,7 +74,7 @@ fi
 # @ECLASS_VARIABLE: CHICKEN_EGG_SVN_URI
 # @DESCRIPTION:
 # Full SVN URI for the egg tag. Defaults to the official eggs repo tag path.
-: "${CHICKEN_EGG_SVN_URI:=https://code.call-cc.org/svn/chicken-eggs/release/5/${CHICKEN_EGG}/tags/${PV}}"
+: "${CHICKEN_EGG_SVN_URI:=https://code.call-cc.org/svn/chicken-eggs/release/6/${CHICKEN_EGG}/tags/${PV}}"
 
 # @ECLASS_VARIABLE: ESVN_USER
 # @DESCRIPTION:
@@ -90,9 +90,9 @@ if [[ ${CHICKEN_EGG_FETCH} == mirror ]]; then
 	SRC_URI="${CHICKEN_EGG_MIRROR}/${CHICKEN_EGG}-${PV}.tar.xz"
 fi
 
-RDEPEND+=" >=dev-scheme/chicken-5.3.0"
+RDEPEND+=" >=dev-scheme/chicken-6.0.0"
 DEPEND+=" ${RDEPEND}"
-BDEPEND+=" >=dev-scheme/chicken-5.3.0"
+BDEPEND+=" >=dev-scheme/chicken-6.0.0"
 [[ ${CHICKEN_EGG_FETCH} == svn ]] && BDEPEND+=" dev-vcs/subversion"
 [[ ${CHICKEN_EGG_FETCH} == files || ${CHICKEN_EGG_FETCH} == mirror ]] \
 	&& BDEPEND+=" app-arch/xz-utils"

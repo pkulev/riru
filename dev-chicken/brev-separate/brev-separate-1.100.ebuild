@@ -5,10 +5,10 @@ EAPI=8
 
 inherit chicken-egg
 
-DESCRIPTION="Command line option parsing"
-HOMEPAGE="https://wiki.call-cc.org/eggref/5/getopt-long"
+DESCRIPTION="Hodge podge of macros and combinators"
+HOMEPAGE="https://wiki.call-cc.org/eggref/6/brev-separate"
 
-LICENSE="LGPL-3"
+LICENSE="BSD-1"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE="test"
@@ -16,17 +16,12 @@ RESTRICT="!test? ( test )"
 
 RDEPEND="
 	dev-chicken/matchable
+	dev-chicken/miscmacros
 	dev-chicken/srfi1
-	dev-chicken/srfi13
-	dev-chicken/srfi14
+	dev-chicken/srfi69
 "
 DEPEND="${RDEPEND}"
-BDEPEND="
-	test? (
-		dev-chicken/matchable
-		dev-chicken/test
-	)
-"
+BDEPEND="test? ( dev-chicken/srfi13 )"
 
 src_test() {
 	unset CHICKEN_INSTALL_REPOSITORY CHICKEN_REPOSITORY_PATH || true

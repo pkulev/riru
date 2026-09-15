@@ -5,8 +5,8 @@ EAPI=8
 
 inherit chicken-egg
 
-DESCRIPTION="SRFI-14 character-sets library"
-HOMEPAGE="https://wiki.call-cc.org/eggref/5/srfi-14"
+DESCRIPTION="Various helper macros"
+HOMEPAGE="https://wiki.call-cc.org/eggref/6/miscmacros"
 
 LICENSE="BSD"
 SLOT="0"

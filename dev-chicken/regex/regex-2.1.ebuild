@@ -5,8 +5,8 @@ EAPI=8
 
 inherit chicken-egg
 
-DESCRIPTION="Various helper macros"
-HOMEPAGE="https://wiki.call-cc.org/eggref/5/miscmacros"
+DESCRIPTION="Compatibility library for old regular expression API"
+HOMEPAGE="https://wiki.call-cc.org/eggref/6/regex"
 
 LICENSE="BSD"
 SLOT="0"

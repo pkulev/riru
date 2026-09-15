@@ -5,8 +5,8 @@ EAPI=8
 
 inherit chicken-egg
 
-DESCRIPTION="SRFI-42 (Eager comprehensions)"
-HOMEPAGE="https://wiki.call-cc.org/eggref/5/srfi-42"
+DESCRIPTION="Combinator Formatting"
+HOMEPAGE="https://wiki.call-cc.org/eggref/6/fmt"
 
 LICENSE="BSD"
 SLOT="0"
@@ -17,6 +17,7 @@ RESTRICT="!test? ( test )"
 RDEPEND="
 	dev-chicken/srfi1
 	dev-chicken/srfi13
+	dev-chicken/srfi69
 "
 DEPEND="${RDEPEND}"
 BDEPEND="test? ( dev-chicken/test )"

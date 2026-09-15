@@ -6,8 +6,8 @@ EAPI=8
 inherit git-r3
 
 DESCRIPTION="Sex: for passionate software developers"
-HOMEPAGE="https://github.com/alex-eg/sex"
-EGIT_REPO_URI="https://github.com/alex-eg/sex.git"
+HOMEPAGE="https://git.kotobank.ch/alex-eg/sex"
+EGIT_REPO_URI="https://git.kotobank.ch/alex-eg/sex.git"
 
 LICENSE="MIT"
 SLOT="0"
@@ -17,7 +17,7 @@ RESTRICT="!test? ( test )"
 
 # Eggs needed at sexc build time and when expanding Sex macros.
 COMMON_DEPEND="
-	>=dev-scheme/chicken-5.4.0
+	>=dev-scheme/chicken-6.0.0
 	dev-chicken/brev-separate
 	dev-chicken/fmt
 	dev-chicken/getopt-long
@@ -25,7 +25,6 @@ COMMON_DEPEND="
 	dev-chicken/srfi1
 	dev-chicken/srfi13
 	dev-chicken/srfi69
-	dev-chicken/tree
 "
 DEPEND="${COMMON_DEPEND}"
 RDEPEND="${COMMON_DEPEND}"
@@ -36,14 +35,14 @@ BDEPEND="
 
 src_compile() {
 	unset CHICKEN_INSTALL_REPOSITORY || true
-	local repo="/usr/$(get_libdir)/chicken/11"
+	local repo="/usr/$(get_libdir)/chicken/12"
 	export CHICKEN_REPOSITORY_PATH="${EPREFIX}${repo}${CHICKEN_REPOSITORY_PATH:+:${CHICKEN_REPOSITORY_PATH}}"
 	emake
 }
 
 src_test() {
 	unset CHICKEN_INSTALL_REPOSITORY || true
-	local repo="/usr/$(get_libdir)/chicken/11"
+	local repo="/usr/$(get_libdir)/chicken/12"
 	export CHICKEN_REPOSITORY_PATH="${EPREFIX}${repo}${CHICKEN_REPOSITORY_PATH:+:${CHICKEN_REPOSITORY_PATH}}"
 	emake sex-tests
 	./sex-tests || die "sex-tests failed"

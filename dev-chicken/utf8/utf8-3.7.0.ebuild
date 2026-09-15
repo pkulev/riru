@@ -5,23 +5,22 @@ EAPI=8
 
 inherit chicken-egg
 
-DESCRIPTION="Hodge podge of macros and combinators"
-HOMEPAGE="https://wiki.call-cc.org/eggref/5/brev-separate"
+DESCRIPTION="Unicode support"
+HOMEPAGE="https://wiki.call-cc.org/eggref/6/utf8"
 
-LICENSE="BSD-1"
+LICENSE="BSD"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE="test"
 RESTRICT="!test? ( test )"
 
 RDEPEND="
-	dev-chicken/matchable
-	dev-chicken/miscmacros
-	dev-chicken/srfi1
-	dev-chicken/srfi69
+	dev-chicken/regex
+	dev-chicken/srfi13
+	dev-chicken/srfi14
 "
 DEPEND="${RDEPEND}"
-BDEPEND="test? ( dev-chicken/srfi13 )"
+BDEPEND="test? ( ${RDEPEND} )"
 
 src_test() {
 	unset CHICKEN_INSTALL_REPOSITORY CHICKEN_REPOSITORY_PATH || true
