@@ -17,7 +17,7 @@ RESTRICT="!test? ( test )"
 
 # Eggs needed at sexc build time and when expanding Sex macros.
 COMMON_DEPEND="
-	>=dev-scheme/chicken-6.0.0
+	>=dev-scheme/chicken-6.0.0[static-libs]
 	dev-chicken/brev-separate
 	dev-chicken/fmt
 	dev-chicken/getopt-long
