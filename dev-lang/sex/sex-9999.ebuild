@@ -6,8 +6,8 @@ EAPI=8
 inherit git-r3
 
 DESCRIPTION="Sex: for passionate software developers"
-HOMEPAGE="https://github.com/alex-eg/sex"
-EGIT_REPO_URI="https://github.com/alex-eg/sex.git"
+HOMEPAGE="https://git.kotobank.ch/alex-eg/sex"
+EGIT_REPO_URI="https://git.kotobank.ch/alex-eg/sex.git"
 
 LICENSE="MIT"
 SLOT="0"
