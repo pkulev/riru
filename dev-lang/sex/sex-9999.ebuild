@@ -15,8 +15,8 @@ KEYWORDS=""
 IUSE="test"
 RESTRICT="!test? ( test )"
 
-# Eggs needed at sexc build time and when expanding Sex macros.
-COMMON_DEPEND="
+# Eggs are linked into sexc (-static); they are not needed at runtime.
+DEPEND="
 	>=dev-scheme/chicken-6.0.0[static-libs]
 	dev-chicken/brev-separate
 	dev-chicken/fmt
@@ -26,26 +26,23 @@ COMMON_DEPEND="
 	dev-chicken/srfi13
 	dev-chicken/srfi69
 "
-DEPEND="${COMMON_DEPEND}"
-RDEPEND="${COMMON_DEPEND}"
+RDEPEND=""
 BDEPEND="
-	${COMMON_DEPEND}
+	${DEPEND}
 	test? ( dev-chicken/test )
 "
 
 src_compile() {
-	unset CHICKEN_INSTALL_REPOSITORY || true
-	local repo="/usr/$(get_libdir)/chicken/12"
-	export CHICKEN_REPOSITORY_PATH="${EPREFIX}${repo}${CHICKEN_REPOSITORY_PATH:+:${CHICKEN_REPOSITORY_PATH}}"
+	# Drop a user Chicken venv so csc sees Portage eggs.
+	unset CHICKEN_INSTALL_REPOSITORY CHICKEN_REPOSITORY_PATH \
+		  CHICKEN_EGG_CACHE CHICKEN_INSTALL_PREFIX || true
 	emake
 }
 
 src_test() {
-	unset CHICKEN_INSTALL_REPOSITORY || true
-	local repo="/usr/$(get_libdir)/chicken/12"
-	export CHICKEN_REPOSITORY_PATH="${EPREFIX}${repo}${CHICKEN_REPOSITORY_PATH:+:${CHICKEN_REPOSITORY_PATH}}"
-	emake sex-tests
-	./sex-tests || die "sex-tests failed"
+	unset CHICKEN_INSTALL_REPOSITORY CHICKEN_REPOSITORY_PATH \
+		  CHICKEN_EGG_CACHE CHICKEN_INSTALL_PREFIX || true
+	emake check
 }
 
 src_install() {
