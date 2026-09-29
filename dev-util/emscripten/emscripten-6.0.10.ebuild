@@ -51,12 +51,9 @@ src_install() {
 	cp -a . "${ED}${dest}/" || die
 	rm -rf "${ED}${dest}/emscripten/test" || die
 
-	# $CFGDIR is the directory containing this file. See tools/config.py.
-	cat > "${ED}${dest}/emscripten/.emscripten" <<-EOF || die
-		LLVM_ROOT = '\$CFGDIR/../bin'
-		BINARYEN_ROOT = '\$CFGDIR/..'
-		NODE_JS = '${EPREFIX}/usr/bin/node'
-	EOF
+	# tools/config.py execs this file. @NODE@ is the only substitution.
+	sed -e "s|@NODE@|${EPREFIX}/usr/bin/node|" \
+		"${FILESDIR}/emscripten.config" > "${ED}${dest}/emscripten/.emscripten" || die
 
 	dostrip -x "${dest}"
 
@@ -74,6 +71,6 @@ src_install() {
 pkg_postinst() {
 	elog "emcc uses the LLVM 24 toolchain shipped with this package."
 	elog "It is installed under /usr/$(get_libdir)/${PN} and is not placed on PATH."
-	elog "The prebuilt library cache is not user-writable. If a link fails because"
-	elog "a system library is missing from that cache, point EM_CACHE at a writable directory."
+	elog "The first run links the prebuilt libraries into ~/.cache/emscripten"
+	elog "(or \$XDG_CACHE_HOME/emscripten) and builds anything missing there."
 }
