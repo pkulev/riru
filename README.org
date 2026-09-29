@@ -66,6 +66,11 @@ This section is auto-generated. Run =bb readme:packages= to refresh it.
 |---------+------------+----------------------------------------------------|
 | chicken | 6.0.0      | Scheme interpreter and native Scheme to C compiler |
 
+** dev-util
+| Name       | Version(s) | Description                        |
+|------------+------------+------------------------------------|
+| emscripten | 6.0.10     | Compile C and C++ into WebAssembly |
+
 ** games-arcade
 | Name    | Version(s) | Description                  |
 |---------+------------+------------------------------|
