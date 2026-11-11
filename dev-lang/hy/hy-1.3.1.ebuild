@@ -4,7 +4,7 @@
 EAPI=8
 
 DISTUTILS_USE_PEP517=setuptools
-PYTHON_COMPAT=( python3_{9..15} pypy3 )
+PYTHON_COMPAT=( python3_{12..15} )
 
 inherit distutils-r1
 
@@ -19,7 +19,11 @@ IUSE="test doc"
 
 RDEPEND=">=dev-python/funcparserlib-1.0.1[${PYTHON_USEDEP}]"
 BDEPEND="${RDEPEND}
-	doc? ( dev-python/sphinx[${PYTHON_USEDEP}] )
+	doc? (
+		$(python_gen_cond_dep '
+			dev-python/sphinx[${PYTHON_USEDEP}]
+		' python3_{13..15})
+	)
 	test? ( dev-python/pytest[${PYTHON_USEDEP}] )"
 
 src_prepare() {

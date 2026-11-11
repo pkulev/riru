@@ -14,7 +14,7 @@ HOMEPAGE="https://emscripten.org/"
 # https://github.com/emscripten-core/emsdk/blob/main/emscripten-releases-tags.json
 # This release expects LLVM 24. Gentoo has no such slot, and the 2017
 # dev-util/emscripten ebuilds (fastcomp) cannot drive this toolchain.
-RELEASES_HASH="666337b525e673e769121856d175f6f52b8ead64"
+RELEASES_HASH="6afbd83493d647051772d491124187d4e9a0cda9"
 SRC_URI="https://storage.googleapis.com/webassembly/emscripten-releases-builds/linux/${RELEASES_HASH}/wasm-binaries.tar.xz -> ${P}-wasm-binaries.tar.xz"
 S="${WORKDIR}/install"
 
@@ -71,6 +71,8 @@ src_install() {
 pkg_postinst() {
 	elog "emcc uses the LLVM 24 toolchain shipped with this package."
 	elog "It is installed under /usr/$(get_libdir)/${PN} and is not placed on PATH."
-	elog "The first run links the prebuilt libraries into ~/.cache/emscripten"
-	elog "(or \$XDG_CACHE_HOME/emscripten) and builds anything missing there."
+	elog "The prebuilt cache is read-only (FROZEN_CACHE) so emcc does not"
+	elog "write into this package or into the home directory."
+	elog "To rebuild system libraries, set EM_CACHE to a writable directory"
+	elog "and EM_FROZEN_CACHE=0."
 }
