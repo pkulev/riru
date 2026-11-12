@@ -1,0 +1,16 @@
+https://bugs.gentoo.org/985716
+libfmt 12.2 no longer includes format.h from core.h unless
+FMT_DEPRECATED_HEAVY_CORE is set. Ioex_Internals.C calls fmt::format
+after including only fmt/core.h.
+
+--- a/ThirdParty/ioss/vtkioss/exodus/Ioex_Internals.C
++++ b/ThirdParty/ioss/vtkioss/exodus/Ioex_Internals.C
+@@ -7,7 +7,7 @@
+ #include "exodus/Ioex_Internals.h" // for Internals, ElemBlock, etc
+ #include "exodus/Ioex_Utils.h"
+ #include "vtk_fmt.h"
+-#include VTK_FMT(fmt/core.h)
++#include VTK_FMT(fmt/format.h)
+ 
+ #include "Ioss_ElementTopology.h"
+ #include "Ioss_GroupingEntity.h"

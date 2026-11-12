@@ -107,6 +107,11 @@ This section is auto-generated. Run =bb readme:packages= to refresh it.
 |----------------+------------+---------------------------------------------------------------------|
 | synology-drive | 4.0.4      | Client for the Synology Drive Server for syncing and sharing files. |
 
+** sci-libs
+| Name | Version(s) | Description               |
+|------+------------+---------------------------|
+| vtk  | 9.6.2-r1   | The Visualization Toolkit |
+
 ** sys-apps
 | Name     | Version(s)    | Description                                               |
 |----------+---------------+-----------------------------------------------------------|
